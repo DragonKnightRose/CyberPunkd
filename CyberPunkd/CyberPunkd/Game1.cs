@@ -72,6 +72,10 @@ namespace CyberPunkd
 
             // TODO: Add your update logic here
 
+            // 1) Player
+
+            // 2) World
+
             base.Update(gameTime);
         }
 
@@ -84,6 +88,8 @@ namespace CyberPunkd
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             // TODO: Add your drawing code here
+            // TODO: Draw world
+            // TODO: Draw Player
 
             base.Draw(gameTime);
         }

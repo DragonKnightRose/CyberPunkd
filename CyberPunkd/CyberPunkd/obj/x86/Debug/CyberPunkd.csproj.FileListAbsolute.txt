@@ -1,0 +1,6 @@
+Z:\CyberPunked\CyberPunkd\CyberPunkd\bin\x86\Debug\CyberPunkd.exe
+Z:\CyberPunked\CyberPunkd\CyberPunkd\bin\x86\Debug\CyberPunkd.pdb
+Z:\CyberPunked\CyberPunkd\CyberPunkd\obj\x86\Debug\CyberPunkd.csprojResolveAssemblyReference.cache
+Z:\CyberPunked\CyberPunkd\CyberPunkd\obj\x86\Debug\Microsoft.Xna.Framework.RuntimeProfile.txt
+Z:\CyberPunked\CyberPunkd\CyberPunkd\obj\x86\Debug\CyberPunkd.exe
+Z:\CyberPunked\CyberPunkd\CyberPunkd\obj\x86\Debug\CyberPunkd.pdb
