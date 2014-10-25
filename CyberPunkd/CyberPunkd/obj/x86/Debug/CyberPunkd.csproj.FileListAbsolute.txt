@@ -4,3 +4,10 @@ Z:\CyberPunked\CyberPunkd\CyberPunkd\obj\x86\Debug\CyberPunkd.csprojResolveAssem
 Z:\CyberPunked\CyberPunkd\CyberPunkd\obj\x86\Debug\Microsoft.Xna.Framework.RuntimeProfile.txt
 Z:\CyberPunked\CyberPunkd\CyberPunkd\obj\x86\Debug\CyberPunkd.exe
 Z:\CyberPunked\CyberPunkd\CyberPunkd\obj\x86\Debug\CyberPunkd.pdb
+Z:\Z\Documents\Dev\CyberPunked\CyberPunkd\CyberPunkd\CyberPunkd\bin\x86\Debug\Content\SpriteSheets\Female_sheet.xnb
+Z:\Z\Documents\Dev\CyberPunked\CyberPunkd\CyberPunkd\CyberPunkd\bin\x86\Debug\CyberPunkd.exe
+Z:\Z\Documents\Dev\CyberPunked\CyberPunkd\CyberPunkd\CyberPunkd\bin\x86\Debug\CyberPunkd.pdb
+Z:\Z\Documents\Dev\CyberPunked\CyberPunkd\CyberPunkd\CyberPunkd\obj\x86\Debug\CyberPunkd.csprojResolveAssemblyReference.cache
+Z:\Z\Documents\Dev\CyberPunked\CyberPunkd\CyberPunkd\CyberPunkd\obj\x86\Debug\Microsoft.Xna.Framework.RuntimeProfile.txt
+Z:\Z\Documents\Dev\CyberPunked\CyberPunkd\CyberPunkd\CyberPunkd\obj\x86\Debug\CyberPunkd.exe
+Z:\Z\Documents\Dev\CyberPunked\CyberPunkd\CyberPunkd\CyberPunkd\obj\x86\Debug\CyberPunkd.pdb

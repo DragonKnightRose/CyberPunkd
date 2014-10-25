@@ -18,10 +18,13 @@ namespace CyberPunkd
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
+        private Player player;
 
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
+            graphics.PreferredBackBufferWidth = 1280;
+            graphics.PreferredBackBufferHeight = 800;
             Content.RootDirectory = "Content";
         }
 
@@ -46,6 +49,7 @@ namespace CyberPunkd
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
+            player = new Player(Content);
 
             // TODO: use this.Content to load your game content here
         }
@@ -90,6 +94,9 @@ namespace CyberPunkd
             // TODO: Add your drawing code here
             // TODO: Draw world
             // TODO: Draw Player
+            spriteBatch.Begin();
+            player.draw(gameTime, spriteBatch);
+            spriteBatch.End();
 
             base.Draw(gameTime);
         }
