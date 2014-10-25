@@ -1,2 +1,1 @@
-CyberPunkd
-==========
+CyberPunk'd.
