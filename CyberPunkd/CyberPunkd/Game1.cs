@@ -19,13 +19,15 @@ namespace CyberPunkd
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         private Player player;
+        //public static ContentManager content;
 
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
-            graphics.PreferredBackBufferWidth = 1280;
-            graphics.PreferredBackBufferHeight = 800;
+            graphics.PreferredBackBufferWidth = 1280-64;
+            graphics.PreferredBackBufferHeight = 800-64;
             Content.RootDirectory = "Content";
+            content = Content;
         }
 
         /// <summary>

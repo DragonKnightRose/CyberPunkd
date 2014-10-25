@@ -14,8 +14,7 @@ namespace CyberPunkd
     class Player : Actor
     {
         private int gender = 0;
-        private Point frameSize;
-        private Point currentFrame;
+
         private Point sheetSize;
         public Player(ContentManager content) : base(content)
         {
@@ -24,14 +23,9 @@ namespace CyberPunkd
             sheetSize = new Point(texture.Width/64, texture.Height/64);
         }
 
-        private Rectangle getFrameRectangle(Point select)
-        {
-            return new Rectangle(select.X * frameSize.X,
-                select.Y * frameSize.Y,
-                frameSize.X, frameSize.Y);
-        }
+       
         
-       public override void draw(GameTime gameTime, SpriteBatch spriteBatch)
+       public override void draw(GameTime gameTime, SpriteBatch spriteBatch, Point position)
         {
             spriteBatch.Draw(texture,Vector2.Zero,getFrameRectangle(currentFrame),Color.White);
             //throw new NotImplementedException();
