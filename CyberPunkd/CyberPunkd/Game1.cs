@@ -281,9 +281,9 @@ namespace CyberPunkd
         private void MoveView()
         {
             KeyboardState keys = Keyboard.GetState();
-
+            Player.States state = player.getState();
             //player pressing up
-            if (keys.IsKeyDown(Keys.W) || keys.IsKeyDown(Keys.Up))
+            if (state == Player.States.WalkUp)
             {
                 viewCorner[1] = viewCorner[1] - 1;
                 if (viewCorner[1] < 0)
@@ -291,80 +291,53 @@ namespace CyberPunkd
                     viewCorner[1] = 0;
                 }
             }
-
-            //player pressing down
-            if (keys.IsKeyDown(Keys.S) || keys.IsKeyDown(Keys.Down))
+            else
             {
-                viewCorner[1] = viewCorner[1] + 1;
-                if (viewCorner[1] > tileMatrix.GetLength(0) - 10)
+                //player pressing down
+                if (state == Player.States.WalkDown)
                 {
-                    viewCorner[1] = tileMatrix.GetLength(0) - 10;
+                    viewCorner[1] = viewCorner[1] + 1;
+                    if (viewCorner[1] > tileMatrix.GetLength(0) - 10)
+                    {
+                        viewCorner[1] = tileMatrix.GetLength(0) - 10;
+                    }
                 }
-            }
-
-            //player pressing left
-            if (keys.IsKeyDown(Keys.A) || keys.IsKeyDown(Keys.Left))
-            {
-                viewCorner[0] = viewCorner[0] - 1;
-                if (viewCorner[0] < 0)
+                else
                 {
-                    viewCorner[0] = 0;
+                    //player pressing left
+                    if (state == Player.States.WalkLeft)
+                    {
+                        viewCorner[0] = viewCorner[0] - 1;
+                        if (viewCorner[0] < 0)
+                        {
+                            viewCorner[0] = 0;
+                        }
+                    }
+                    else
+                    {
+                        //player pressing right
+                        if (state == Player.States.WalkRight)
+                        {
+                            viewCorner[0] = viewCorner[0] + 1;
+                            if (viewCorner[0] > tileMatrix[0].GetLength(0) - 10)
+                            {
+                                viewCorner[0] = tileMatrix[0].GetLength(0) - 10;
+                            }
+                        }
+                    }
+                    
                 }
+               
             }
-
-            //player pressing right
-            if (keys.IsKeyDown(Keys.D) || keys.IsKeyDown(Keys.Right))
-            {
-                viewCorner[0] = viewCorner[0] + 1;
-                if (viewCorner[0] > tileMatrix[0].GetLength(0) - 10)
-                {
-                    viewCorner[0] = tileMatrix[0].GetLength(0) - 10;
-                }
-            }
+            
         }
 
         public void MovePlayer()
         {
             KeyboardState keys = Keyboard.GetState();
 
-            //player pressing up
-            if (keys.IsKeyDown(Keys.W) || keys.IsKeyDown(Keys.Up))
-            {
-                player.setState(Player.States.WalkUp);
-            }
-            else
-            {
-                //player pressing down
-                if (keys.IsKeyDown(Keys.S) || keys.IsKeyDown(Keys.Down))
-                {
-                    player.setState(Player.States.WalkDown);
-                }
-
-                else
-                {
-                    //player pressing left
-                    if (keys.IsKeyDown(Keys.A) || keys.IsKeyDown(Keys.Left))
-                    {
-                        player.setState(Player.States.WalkLeft);
-                    }
-
-                    else
-                    {
-                        //player pressing right
-                        if (keys.IsKeyDown(Keys.D) || keys.IsKeyDown(Keys.Right))
-                        {
-                            player.setState(Player.States.WalkRight);
-                        }
-                        else
-                        {
-                            player.setState(Player.States.Idle);
-                        }
-                    }
-                }
-                
-            }
-
-        
+            player.ParseInput(keys);
+            
         }
 
         public bool CheckWallCollision()

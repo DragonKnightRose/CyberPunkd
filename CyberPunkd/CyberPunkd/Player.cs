@@ -19,7 +19,7 @@ namespace CyberPunkd
         private int modeOffset = 2;
         private int spriteRow = 0;
         private int[] location;
-        private States state;
+        
         private Point animationFrame;
         public enum States
         {
@@ -29,6 +29,7 @@ namespace CyberPunkd
             WalkLeft,
             Idle
         }
+        private States state;
 
         private TimeSpan lastAnimate;
         private TimeSpan timeSinceLastAnimate;
@@ -173,7 +174,7 @@ namespace CyberPunkd
         }
        
         
-       public override void draw(GameTime gameTime,  Point position)
+        public override void draw(GameTime gameTime,  Point position)
         {
            setSpriteFrame(animationFrame);
            spriteBatch.Draw(texture, new Vector2(position.X, position.Y), getFrameRectangle(currentFrame),
@@ -187,7 +188,7 @@ namespace CyberPunkd
             if (timeSinceLastAnimate > new TimeSpan(5 * tickTime.Ticks))
             {
                 lastAnimate = gameTime.TotalGameTime;
-                animate(gameTime);
+                Animate(gameTime);
             }
                 
             
@@ -220,7 +221,36 @@ namespace CyberPunkd
 
         }
 
-        private void animate(GameTime gameTime)
+        public void ParseInput(KeyboardState keys)
+        {
+            States movement = States.Idle;
+            //player pressing up
+            if (keys.IsKeyDown(Keys.W) || keys.IsKeyDown(Keys.Up))
+            {
+                movement = States.WalkUp;
+            }
+            //player pressing down
+            if (keys.IsKeyDown(Keys.S) || keys.IsKeyDown(Keys.Down))
+            {
+                movement = States.WalkDown;
+            }
+            //player pressing left
+            if (keys.IsKeyDown(Keys.A) || keys.IsKeyDown(Keys.Left))
+            {
+                movement = States.WalkLeft;
+            }
+            //player pressing right
+            if (keys.IsKeyDown(Keys.D) || keys.IsKeyDown(Keys.Right))
+            {
+                movement = States.WalkRight;
+            }
+
+            state = movement;
+
+
+        }
+
+        private void Animate(GameTime gameTime)
         {
             if (state == States.WalkUp)
                 walkUp();
