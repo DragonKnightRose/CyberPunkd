@@ -73,7 +73,6 @@ namespace CyberPunkd
             graphics.PreferredBackBufferHeight = SCREEN_HEIGHT-64-32;
             graphics.PreferredBackBufferWidth = SCREEN_WIDTH-64;
             graphics.ApplyChanges();
-            
             base.Initialize();
         }
 
@@ -94,7 +93,7 @@ namespace CyberPunkd
             //load sprite maps
             
             //load tilesets
-            tileTable = new Tile[9];
+            tileTable = new Tile[10];
             tileTable[FLOOR_TILE] = tile;
 
             tileTable[WALL_LEFT_TILE] = new Wall(Content.Load<Texture2D>("Walls"));
@@ -150,7 +149,10 @@ namespace CyberPunkd
             // TODO: Add your update logic here
             //player update
                 //sense input
-            KeyboardState keys = Keyboard.GetState();
+            Console.WriteLine(gameTime.TotalGameTime.Milliseconds);
+            moveView();
+            
+            
             
                 //compute restrictions
                 //update player stats
@@ -257,6 +259,51 @@ namespace CyberPunkd
                         //we're off the map, paint empty tile
                         //tileTable[EMPTY_TILE].draw(gameTime, x, y);
                     }
+                }
+            }
+        }
+
+        private void moveView()
+        {
+            KeyboardState keys = Keyboard.GetState();
+
+            //player pressing up
+            if (keys.IsKeyDown(Keys.W) || keys.IsKeyDown(Keys.Up))
+            {
+                viewCorner[1] = viewCorner[1] - 1;
+                if (viewCorner[1] < 0)
+                {
+                    viewCorner[1] = 0;
+                }
+            }
+
+            //player pressing down
+            if (keys.IsKeyDown(Keys.S) || keys.IsKeyDown(Keys.Down))
+            {
+                viewCorner[1] = viewCorner[1] + 1;
+                if (viewCorner[1] > tileMatrix.GetLength(0) - 10)
+                {
+                    viewCorner[1] = tileMatrix.GetLength(0) - 10;
+                }
+            }
+
+            //player pressing left
+            if (keys.IsKeyDown(Keys.A) || keys.IsKeyDown(Keys.Left))
+            {
+                viewCorner[0] = viewCorner[0] - 1;
+                if (viewCorner[0] < 0)
+                {
+                    viewCorner[0] = 0;
+                }
+            }
+
+            //player pressing right
+            if (keys.IsKeyDown(Keys.D) || keys.IsKeyDown(Keys.Right))
+            {
+                viewCorner[0] = viewCorner[0] + 1;
+                if (viewCorner[0] > tileMatrix[0].GetLength(0) - 10)
+                {
+                    viewCorner[0] = tileMatrix[0].GetLength(0) - 10;
                 }
             }
         }
