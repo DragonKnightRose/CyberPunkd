@@ -1,42 +1,3 @@
-<<<<<<< HEAD
-<<<<<<< Updated upstream
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Mime;
-using System.Text;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Content;
-using Microsoft.Xna.Framework.Graphics;
-
-namespace CyberPunkd
-{
-
-    // TODO: Refractor frame selection code into Entity class.
-    class Player : Actor
-    {
-        private int gender = 0;
-
-        private Point sheetSize;
-        public Player(ContentManager content) : base(content)
-        {
-            texture = content.Load<Texture2D> (@"SpriteSheets\Female_sheet");
-            
-            sheetSize = new Point(texture.Width/64, texture.Height/64);
-        }
-
-       
-        
-       public override void draw(GameTime gameTime,  Point position)
-        {
-            spriteBatch.Draw(texture,Vector2.Zero,getFrameRectangle(currentFrame),Color.White);
-            //throw new NotImplementedException();
-        }
-    }
-}
-=======
-=======
->>>>>>> FETCH_HEAD
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -53,18 +14,12 @@ namespace CyberPunkd
     // TODO: Refractor frame selection code into Entity class.
     class Player : DynamicEntity
     {
+        private string state = "idle";
+        
         private int gender = 0;
         private int directionOffset = 0;
         private int modeOffset = 2;
         private int spriteRow = 0;
-<<<<<<< HEAD
-=======
-        private int[] location;
-        private string state;
-        private Point animationFrame;
-        private TimeSpan lastAnimate;
-        private TimeSpan timeSinceLastAnimate;
->>>>>>> FETCH_HEAD
 
         private int SPELL_CAST = 0,
                     THRUST = 1,
@@ -73,22 +28,20 @@ namespace CyberPunkd
                     SHOOT = 4,
                     HURT = 5,
                     SIT = 6;
-        
+
+        private int[] location;
+        private string state;
+        private Point animationFrame;
+        private TimeSpan lastAnimate;
+        private TimeSpan timeSinceLastAnimate;
+
 
         private Point sheetSize;
-<<<<<<< HEAD
-        public Player(Texture2D texture) : base(texture)
-=======
         public Player(Texture2D texture, int initX, int initY) : base(texture)
->>>>>>> FETCH_HEAD
         {
             //texture = content.Load<Texture2D> (@"SpriteSheets\Female_sheet");
-            
-            sheetSize = new Point(texture.Width/64, texture.Height/64);
-<<<<<<< HEAD
-        }
 
-=======
+            sheetSize = new Point(texture.Width/64, texture.Height/64);
             location = new[] {10, 6};
             state = "idle";
             lastAnimate = new TimeSpan(0);
@@ -102,7 +55,7 @@ namespace CyberPunkd
         public int getYCoord()
         {
             return location[1];
-        }
+}
 
         public void setXCoord(int x)
         {
@@ -203,36 +156,27 @@ namespace CyberPunkd
                 animationFrame = new Point(x, animationFrame.Y);
             }
         }
->>>>>>> FETCH_HEAD
-       
-        
+
+
+
        public override void draw(GameTime gameTime,  Point position)
         {
-<<<<<<< HEAD
-            spriteBatch.Draw(texture,Vector2.Zero,getFrameRectangle(currentFrame),Color.White);
-=======
-           setSpriteFrame(animationFrame);
+          setSpriteFrame(animationFrame);
            spriteBatch.Draw(texture, new Vector2(position.X, position.Y), getFrameRectangle(currentFrame),
                Color.White);
->>>>>>> FETCH_HEAD
-            //throw new NotImplementedException();
         }
 
         public override void update(GameTime gameTime)
         {
-<<<<<<< HEAD
-            int oldSpriteRow = spriteRow;
-=======
+            /*int oldSpriteRow = spriteRow;
+
             timeSinceLastAnimate = gameTime.TotalGameTime - lastAnimate;
             if (timeSinceLastAnimate > new TimeSpan(0, 0, 0, 0, 60))
             {
                 lastAnimate = gameTime.TotalGameTime;
                 animate(gameTime);
             }
-                
-            
-            /*int oldSpriteRow = spriteRow;
->>>>>>> FETCH_HEAD
+
             KeyboardState kb = Keyboard.GetState();
             if (kb.IsKeyDown(Keys.W) || kb.IsKeyDown(Keys.Up))
             {
@@ -256,18 +200,9 @@ namespace CyberPunkd
                 spriteRow = modeOffset*4;
 
             if(oldSpriteRow != spriteRow)
-<<<<<<< HEAD
                 setSpriteFrame(new Point(spriteRow,0));
 
-
-        }
-    }
-}
->>>>>>> Stashed changes
-=======
-                setSpriteFrame(new Point(spriteRow,0));*/
-
-
+            */
         }
 
         private void animate(GameTime gameTime)
@@ -283,4 +218,3 @@ namespace CyberPunkd
         }
     }
 }
->>>>>>> FETCH_HEAD

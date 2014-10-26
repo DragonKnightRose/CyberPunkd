@@ -9,12 +9,15 @@ namespace CyberPunkd
 {
     class Floor : Tile
     {
-        
+
         public Floor(Texture2D texture) : base(texture)
         {
-            canCollide = false;
+            canCollide = true;
         }
 
-     
+        public override void draw(GameTime gameTime, Point position)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

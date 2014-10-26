@@ -13,9 +13,6 @@ namespace CyberPunkd
         private const int INVINCIBLE = 10000;
         protected int health = INVINCIBLE;
 
-        private string state = "idle";
-
-
         protected DynamicEntity(Texture2D texture) : base (texture)
         {
             canCollide = true;
