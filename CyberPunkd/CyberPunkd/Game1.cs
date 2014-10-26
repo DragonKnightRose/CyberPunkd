@@ -86,7 +86,7 @@ namespace CyberPunkd
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             Drawable.setSpriteBatch(spriteBatch);
-            player = new Player(Content.Load<Texture2D>(@"SpriteSheets\Female_sheet"));
+            player = new Player(Content.Load<Texture2D>(@"SpriteSheets\Female_sheet"),0,7);
             tile = new Floor(Content.Load<Texture2D>(@"SpriteSheets\floor"));
 
             // TODO: use this.Content to load your game content here
@@ -188,6 +188,9 @@ namespace CyberPunkd
             //player.draw(gameTime, );
             //tile.draw(gameTime,100,100);
             DrawMap(gameTime);
+            Console.WriteLine("Player X:" + player.getXCoord());
+            Console.WriteLine("Player Y:" + player.getYCoord());
+            player.draw(gameTime, new Point(576, 336));
             spriteBatch.End();
 
 
@@ -306,6 +309,36 @@ namespace CyberPunkd
                     viewCorner[0] = tileMatrix[0].GetLength(0) - 10;
                 }
             }
+        }
+
+        public void movePlayer()
+        {
+            KeyboardState keys = Keyboard.GetState();
+
+            //player pressing up
+            if (keys.IsKeyDown(Keys.W) || keys.IsKeyDown(Keys.Up))
+            {
+                player.walkUp();
+            }
+
+            //player pressing down
+            if (keys.IsKeyDown(Keys.S) || keys.IsKeyDown(Keys.Down))
+            {
+                
+            }
+
+            //player pressing left
+            if (keys.IsKeyDown(Keys.A) || keys.IsKeyDown(Keys.Left))
+            {
+                
+            }
+
+            //player pressing right
+            if (keys.IsKeyDown(Keys.D) || keys.IsKeyDown(Keys.Right))
+            {
+                
+            }
+        
         }
     }
 }

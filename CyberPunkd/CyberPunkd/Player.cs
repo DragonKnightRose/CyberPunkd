@@ -18,6 +18,9 @@ namespace CyberPunkd
         private int directionOffset = 0;
         private int modeOffset = 2;
         private int spriteRow = 0;
+        private int[] location;
+        private string state;
+        private Point currentFrame;
 
         private int SPELL_CAST = 0,
                     THRUST = 1,
@@ -29,24 +32,52 @@ namespace CyberPunkd
         
 
         private Point sheetSize;
-        public Player(Texture2D texture) : base(texture)
+        public Player(Texture2D texture, int initX, int initY) : base(texture)
         {
             //texture = content.Load<Texture2D> (@"SpriteSheets\Female_sheet");
             
             sheetSize = new Point(texture.Width/64, texture.Height/64);
+            location = new[] {initX, initY};
+            state = "idle";
+            currentFrame = new Point(0,12);
         }
 
+        public int getXCoord()
+        {
+            return location[0];
+        }
+        public int getYCoord()
+        {
+            return location[1];
+        }
+
+        public void setXCoord(int x)
+        {
+            location[0] = x;
+
+        }
+        public void setYCoord(int y)
+        {
+            location[1] = y;
+        }
+
+        public void walkUp()
+        {
+            
+        }
        
         
-       public override void draw(GameTime gameTime,  Point position)
+       /*public override void draw(GameTime gameTime,  Point position)
         {
-            spriteBatch.Draw(texture,Vector2.Zero,getFrameRectangle(currentFrame),Color.White);
+           setSpriteFrame(currentFrame);
+            spriteBatch.Draw(texture,new Vector2(position.X, position.Y), getFrameRectangle(currentFrame),Color.White);
             //throw new NotImplementedException();
-        }
+        }*/
 
         public override void update(GameTime gameTime)
         {
             int oldSpriteRow = spriteRow;
+            setSpriteFrame(currentFrame);
             KeyboardState kb = Keyboard.GetState();
             if (kb.IsKeyDown(Keys.W) || kb.IsKeyDown(Keys.Up))
             {
