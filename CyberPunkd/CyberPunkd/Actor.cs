@@ -8,7 +8,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace CyberPunkd
 {
-    abstract class Actor : Entity
+    abstract class Actor : Drawable
     {
         public Actor(Texture2D texture) : base (texture)
         {

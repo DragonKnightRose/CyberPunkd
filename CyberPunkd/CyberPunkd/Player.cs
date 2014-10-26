@@ -25,7 +25,7 @@ namespace CyberPunkd
 
        
         
-       public override void draw(GameTime gameTime, SpriteBatch spriteBatch, Point position)
+       public override void draw(GameTime gameTime,  Point position)
         {
             spriteBatch.Draw(texture,Vector2.Zero,getFrameRectangle(currentFrame),Color.White);
             //throw new NotImplementedException();
