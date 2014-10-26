@@ -330,14 +330,14 @@ namespace CyberPunkd
             //player pressing up
             if (keys.IsKeyDown(Keys.W) || keys.IsKeyDown(Keys.Up))
             {
-                player.setState("walkUp");
+                player.setState(Player.States.WalkUp);
             }
             else
             {
                 //player pressing down
                 if (keys.IsKeyDown(Keys.S) || keys.IsKeyDown(Keys.Down))
                 {
-                    player.setState("walkDown");
+                    player.setState(Player.States.WalkDown);
                 }
 
                 else
@@ -345,7 +345,7 @@ namespace CyberPunkd
                     //player pressing left
                     if (keys.IsKeyDown(Keys.A) || keys.IsKeyDown(Keys.Left))
                     {
-                        player.setState("walkLeft");
+                        player.setState(Player.States.WalkLeft);
                     }
 
                     else
@@ -353,11 +353,11 @@ namespace CyberPunkd
                         //player pressing right
                         if (keys.IsKeyDown(Keys.D) || keys.IsKeyDown(Keys.Right))
                         {
-                            player.setState("walkRight");
+                            player.setState(Player.States.WalkRight);
                         }
                         else
                         {
-                            player.setState("idle");
+                            player.setState(Player.States.Idle);
                         }
                     }
                 }
@@ -374,19 +374,19 @@ namespace CyberPunkd
             int destinationY;
             switch (player.getState())
             {
-                case ("walkUp"):
+                case (Player.States.WalkUp):
                     destinationX = viewCorner[0] + player.getXCoord();
                     destinationY = viewCorner[1] + player.getYCoord() - 1;
                     break;
-                case ("walkDown"):
+                case (Player.States.WalkDown):
                     destinationX = viewCorner[0] + player.getXCoord();
                     destinationY = viewCorner[1] + player.getYCoord() + 1;
                     break;
-                case ("walkRight"):
+                case (Player.States.WalkRight):
                     destinationX = viewCorner[0] + player.getXCoord() + 1;
                     destinationY = viewCorner[1] + player.getYCoord();
                     break;
-                case ("walkLeft"):
+                case (Player.States.WalkLeft):
                     destinationX = viewCorner[0] + player.getXCoord() - 1;
                     destinationY = viewCorner[1] + player.getYCoord();
                     break;

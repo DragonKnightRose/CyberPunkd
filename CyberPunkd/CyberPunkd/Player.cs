@@ -19,8 +19,16 @@ namespace CyberPunkd
         private int modeOffset = 2;
         private int spriteRow = 0;
         private int[] location;
-        private string state;
+        private States state;
         private Point animationFrame;
+        public enum States
+        {
+            WalkDown,
+            WalkUp,
+            WalkRight,
+            WalkLeft,
+            Idle
+        }
 
         private TimeSpan lastAnimate;
         private TimeSpan timeSinceLastAnimate;
@@ -44,7 +52,7 @@ namespace CyberPunkd
             
             sheetSize = new Point(texture.Width/64, texture.Height/64);
             location = new[] {10, 6};
-            state = "idle";
+            state = States.Idle;
             lastAnimate = new TimeSpan(0);
             animationFrame = new Point(0,11);
             tickTime = tickLength;
@@ -69,37 +77,21 @@ namespace CyberPunkd
             location[1] = y;
         }
 
-        public string getState()
+        public States getState()
         {
             return state;
         }
-        public void setState(string s)
+        public void setState(States s)
         {
             state = s;
-            /*switch (state)
-            {
-                case "walkDown":
-                    animationFrame = new Point(0, 10);
-                    break;
-                case "walkUp":
-                    animationFrame = new Point(0, 8);
-                    break;
-                case "walkLeft":
-                    animationFrame = new Point(0, 9);
-                    break;
-                case "walkRight":
-                    animationFrame = new Point(0, 11);
-                    break;
-                default:
-                    break;
-            }*/
+           
         }
 
         public void walkUp()
         {
-            if (state != "walkUp")
+            if (state != States.WalkUp)
             {
-                state = "walkUp";
+                state = States.WalkUp;
                 animationFrame = new Point(0,8);
             }
             else
@@ -118,9 +110,9 @@ namespace CyberPunkd
         }
         public void walkDown()
         {
-            if (state != "walkDown")
+            if (state != States.WalkDown)
             {
-                state = "walkDown";
+                state = States.WalkDown;
                 animationFrame = new Point(0, 10);
             }
             else
@@ -139,9 +131,9 @@ namespace CyberPunkd
         }
         public void walkRight()
         {
-            if (state != "walkRight")
+            if (state != States.WalkRight)
             {
-                state = "walkRight";
+                state = States.WalkRight;
                 animationFrame = new Point(0, 11);
             }
             else
@@ -160,9 +152,9 @@ namespace CyberPunkd
         }
         public void walkLeft()
         {
-            if (state != "walkLeft")
+            if (state != States.WalkLeft)
             {
-                state = "walkLeft";
+                state = States.WalkLeft;
                 animationFrame = new Point(0, 9);
             }
             else
@@ -230,13 +222,13 @@ namespace CyberPunkd
 
         private void animate(GameTime gameTime)
         {
-            if (state == "walkUp")
+            if (state == States.WalkUp)
                 walkUp();
-            if (state == "walkDown")
+            if (state == States.WalkDown)
                 walkDown();
-            if (state == "walkRight")
+            if (state == States.WalkRight)
                 walkRight();
-            if (state == "walkLeft")
+            if (state == States.WalkLeft)
                 walkLeft();
         }
     }
