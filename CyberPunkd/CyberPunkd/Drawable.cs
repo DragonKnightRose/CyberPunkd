@@ -13,8 +13,8 @@ namespace CyberPunkd
         protected Texture2D texture;
         protected static SpriteBatch spriteBatch;
         //Points used in selecting a particular frame
-        protected static Point frameSize = new Point(64,64);
-        protected Point currentFrame;
+        protected static Point frameSize = new Point(64,64); //how large each frame is
+        protected Point currentFrame = new Point(0,0); //the selected frame.
         protected Point sheetSize;
 
         public Boolean canCollide;
@@ -36,11 +36,18 @@ namespace CyberPunkd
             draw(gameTime, new Point(x,y));
         }
 
+
+
         protected Rectangle getFrameRectangle(Point select)
         {
             return new Rectangle(select.X * frameSize.X,
                 select.Y * frameSize.Y,
                 frameSize.X, frameSize.Y);
+        }
+
+        public void setSpriteFrame(Point position)
+        {
+            currentFrame = position;
         }
 
         public static void setSpriteBatch(SpriteBatch sb)
