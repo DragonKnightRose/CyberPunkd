@@ -21,8 +21,12 @@ namespace CyberPunkd
         private int[] location;
         private string state;
         private Point animationFrame;
+
         private TimeSpan lastAnimate;
         private TimeSpan timeSinceLastAnimate;
+        private TimeSpan tickTime;
+
+        
 
         private int SPELL_CAST = 0,
                     THRUST = 1,
@@ -34,7 +38,7 @@ namespace CyberPunkd
         
 
         private Point sheetSize;
-        public Player(Texture2D texture, int initX, int initY) : base(texture)
+        public Player(Texture2D texture, TimeSpan tickLength) : base(texture)
         {
             //texture = content.Load<Texture2D> (@"SpriteSheets\Female_sheet");
             
@@ -43,6 +47,7 @@ namespace CyberPunkd
             state = "idle";
             lastAnimate = new TimeSpan(0);
             animationFrame = new Point(0,11);
+            tickTime = tickLength;
         }
 
         public int getXCoord()
@@ -68,6 +73,27 @@ namespace CyberPunkd
         {
             return state;
         }
+        public void setState(string s)
+        {
+            state = s;
+            /*switch (state)
+            {
+                case "walkDown":
+                    animationFrame = new Point(0, 10);
+                    break;
+                case "walkUp":
+                    animationFrame = new Point(0, 8);
+                    break;
+                case "walkLeft":
+                    animationFrame = new Point(0, 9);
+                    break;
+                case "walkRight":
+                    animationFrame = new Point(0, 11);
+                    break;
+                default:
+                    break;
+            }*/
+        }
 
         public void walkUp()
         {
@@ -87,7 +113,7 @@ namespace CyberPunkd
                 {
                     x++;
                 }
-                animationFrame = new Point(x, animationFrame.Y);
+                animationFrame = new Point(x, 8);
             }
         }
         public void walkDown()
@@ -108,7 +134,7 @@ namespace CyberPunkd
                 {
                     x++;
                 }
-                animationFrame = new Point(x, animationFrame.Y);
+                animationFrame = new Point(x, 10);
             }
         }
         public void walkRight()
@@ -129,7 +155,7 @@ namespace CyberPunkd
                 {
                     x++;
                 }
-                animationFrame = new Point(x, animationFrame.Y);
+                animationFrame = new Point(x, 11);
             }
         }
         public void walkLeft()
@@ -150,7 +176,7 @@ namespace CyberPunkd
                 {
                     x++;
                 }
-                animationFrame = new Point(x, animationFrame.Y);
+                animationFrame = new Point(x, 9);
             }
         }
        
@@ -166,7 +192,7 @@ namespace CyberPunkd
         public override void update(GameTime gameTime)
         {
             timeSinceLastAnimate = gameTime.TotalGameTime - lastAnimate;
-            if (timeSinceLastAnimate > new TimeSpan(0, 0, 0, 0, 60))
+            if (timeSinceLastAnimate > new TimeSpan(5 * tickTime.Ticks))
             {
                 lastAnimate = gameTime.TotalGameTime;
                 animate(gameTime);

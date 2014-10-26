@@ -47,6 +47,7 @@ namespace CyberPunkd
 
         private TimeSpan timeSinceLastMove;
         private TimeSpan lastMove;
+        private TimeSpan tickTime;
 
 
         //Just for testing
@@ -60,7 +61,7 @@ namespace CyberPunkd
             Content.RootDirectory = "Content";
 
             //content = Content;
-            //TargetElapsedTime = new TimeSpan(0, 0, 0, 0, 80);
+            //TargetElapsedTime = new TimeSpan(1000);
         }
 
         /// <summary>
@@ -77,6 +78,7 @@ namespace CyberPunkd
             graphics.ApplyChanges();
 
             lastMove = new TimeSpan(0,0,0);
+            tickTime = TargetElapsedTime;
             base.Initialize();
         }
 
@@ -90,7 +92,7 @@ namespace CyberPunkd
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             Drawable.setSpriteBatch(spriteBatch);
-            player = new Player(Content.Load<Texture2D>(@"SpriteSheets\Female_sheet"),9,5);
+            player = new Player(Content.Load<Texture2D>(@"SpriteSheets\Female_sheet"), tickTime);
             tile = new Floor(Content.Load<Texture2D>(@"SpriteSheets\floor"));
 
             // TODO: use this.Content to load your game content here
@@ -154,7 +156,7 @@ namespace CyberPunkd
             //player update
             timeSinceLastMove = gameTime.TotalGameTime - lastMove;
                 //sense input
-            if (timeSinceLastMove > new TimeSpan(0, 0, 0, 0, 80))
+            if (timeSinceLastMove > new TimeSpan (5 * tickTime.Ticks))
             {
                 lastMove = gameTime.TotalGameTime;
                 MovePlayer();
@@ -328,26 +330,40 @@ namespace CyberPunkd
             //player pressing up
             if (keys.IsKeyDown(Keys.W) || keys.IsKeyDown(Keys.Up))
             {
-                player.walkUp();
+                player.setState("walkUp");
+            }
+            else
+            {
+                //player pressing down
+                if (keys.IsKeyDown(Keys.S) || keys.IsKeyDown(Keys.Down))
+                {
+                    player.setState("walkDown");
+                }
+
+                else
+                {
+                    //player pressing left
+                    if (keys.IsKeyDown(Keys.A) || keys.IsKeyDown(Keys.Left))
+                    {
+                        player.setState("walkLeft");
+                    }
+
+                    else
+                    {
+                        //player pressing right
+                        if (keys.IsKeyDown(Keys.D) || keys.IsKeyDown(Keys.Right))
+                        {
+                            player.setState("walkRight");
+                        }
+                        else
+                        {
+                            player.setState("idle");
+                        }
+                    }
+                }
+                
             }
 
-            //player pressing down
-            if (keys.IsKeyDown(Keys.S) || keys.IsKeyDown(Keys.Down))
-            {
-                player.walkDown();
-            }
-
-            //player pressing left
-            if (keys.IsKeyDown(Keys.A) || keys.IsKeyDown(Keys.Left))
-            {
-                player.walkLeft();   
-            }
-
-            //player pressing right
-            if (keys.IsKeyDown(Keys.D) || keys.IsKeyDown(Keys.Right))
-            {
-                player.walkRight();
-            }
         
         }
 
