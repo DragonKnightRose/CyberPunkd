@@ -2,18 +2,17 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace CyberPunkd
 {
-    class Wall : Tile
+    class StaticEntity : Entity
     {
-        public Wall(Texture2D texture) : base(texture)
+        public StaticEntity(Texture2D texture) : base(texture)
         {
-            canCollide = true;
+            canCollide = false;
         }
 
-
+        
     }
 }
