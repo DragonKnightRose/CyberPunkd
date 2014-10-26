@@ -33,6 +33,11 @@ namespace CyberPunkd
         private const int WALL_UL_TILE = 7;
         private const int WALL_UR_TILE = 8;
         private const int WALL_LR_TILE = 9;
+
+        private const int WALL_LL_CORNER = 10;
+        private const int WALL_UL_CORNER = 11;
+        private const int WALL_UR_CORNER = 12;
+        private const int WALL_LR_CORNER = 13;
         
 
         private const int TILE_WIDTH = 64;
@@ -48,6 +53,8 @@ namespace CyberPunkd
         private TimeSpan timeSinceLastMove;
         private TimeSpan lastMove;
         private TimeSpan tickTime;
+
+        private Texture2D wallSpriteMap;
 
 
         //Just for testing
@@ -97,34 +104,47 @@ namespace CyberPunkd
 
             // TODO: use this.Content to load your game content here
             //load sprite maps
+            wallSpriteMap = Content.Load<Texture2D>(@"SpriteSheets\Walls");
             
             //load tilesets
-            tileTable = new Tile[10];
+            tileTable = new Tile[22];
             tileTable[FLOOR_TILE] = tile;
 
-            tileTable[WALL_LEFT_TILE] = new Wall(Content.Load<Texture2D>("Walls"));
+            tileTable[WALL_LEFT_TILE] = new Wall(wallSpriteMap);
             tileTable[WALL_LEFT_TILE].setSpriteFrame(new Point(0,0));
 
-            tileTable[WALL_TOP_TILE] = new Wall(Content.Load<Texture2D>("Walls"));
+            tileTable[WALL_TOP_TILE] = new Wall(wallSpriteMap);
             tileTable[WALL_TOP_TILE].setSpriteFrame(new Point(1, 0));
 
-            tileTable[WALL_BOTTOM_TILE] = new Wall(Content.Load<Texture2D>("Walls"));
+            tileTable[WALL_BOTTOM_TILE] = new Wall(wallSpriteMap);
             tileTable[WALL_BOTTOM_TILE].setSpriteFrame(new Point(2, 0));
 
-            tileTable[WALL_RIGHT_TILE] = new Wall(Content.Load<Texture2D>("Walls"));
+            tileTable[WALL_RIGHT_TILE] = new Wall(wallSpriteMap);
             tileTable[WALL_RIGHT_TILE].setSpriteFrame(new Point(3, 0));
 
-            tileTable[WALL_LL_TILE] = new Wall(Content.Load<Texture2D>("Walls"));
+            tileTable[WALL_LL_TILE] = new Wall(wallSpriteMap);
             tileTable[WALL_LL_TILE].setSpriteFrame(new Point(0, 1));
 
-            tileTable[WALL_UL_TILE] = new Wall(Content.Load<Texture2D>("Walls"));
+            tileTable[WALL_UL_TILE] = new Wall(wallSpriteMap);
             tileTable[WALL_UL_TILE].setSpriteFrame(new Point(1, 1));
 
-            tileTable[WALL_UR_TILE] = new Wall(Content.Load<Texture2D>("Walls"));
+            tileTable[WALL_UR_TILE] = new Wall(wallSpriteMap);
             tileTable[WALL_UR_TILE].setSpriteFrame(new Point(2, 1));
 
-            tileTable[WALL_LR_TILE] = new Wall(Content.Load<Texture2D>("Walls"));
+            tileTable[WALL_LR_TILE] = new Wall(wallSpriteMap);
             tileTable[WALL_LR_TILE].setSpriteFrame(new Point(3, 1));
+
+            tileTable[WALL_LL_CORNER] = new Wall(wallSpriteMap);
+            tileTable[WALL_LL_CORNER].setSpriteFrame(new Point(0, 2));
+
+            tileTable[WALL_UL_CORNER] = new Wall(wallSpriteMap);
+            tileTable[WALL_UL_CORNER].setSpriteFrame(new Point(1, 2));
+
+            tileTable[WALL_UR_CORNER] = new Wall(wallSpriteMap);
+            tileTable[WALL_UR_CORNER].setSpriteFrame(new Point(2, 2));
+
+            tileTable[WALL_LR_CORNER] = new Wall(wallSpriteMap);
+            tileTable[WALL_LR_CORNER].setSpriteFrame(new Point(3, 2));
             
             //load map files
             viewCorner = new[] {0, 0};
@@ -267,7 +287,7 @@ namespace CyberPunkd
                             //we're still on the map
                             //paint the tile at tileMatrix[xGlobal, yGlobal] at coords [x,y]
                             int tileTableIndex = tileMatrix[yGlobal][xGlobal];
-                            if (tileTableIndex != EMPTY_TILE)
+                            if (tileTableIndex != EMPTY_TILE && tileTableIndex != 15)
                             {
                                 tileTable[tileTableIndex].draw(gameTime, x, y);
                             }
@@ -375,7 +395,7 @@ namespace CyberPunkd
             Console.WriteLine("Destination Tile: (" + destinationX + ", " + destinationY + ")");
             Console.WriteLine("Tile Type: " + destinationTileType);
 
-            if(destinationTileType != EMPTY_TILE)
+            if (destinationTileType != EMPTY_TILE && destinationTileType != 15)
                 return tileTable[destinationTileType].canCollide;
             else
             {
