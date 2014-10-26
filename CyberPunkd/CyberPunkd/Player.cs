@@ -11,14 +11,14 @@ namespace CyberPunkd
 {
 
     // TODO: Refractor frame selection code into Entity class.
-    class Player : Actor
+    class Player : DynamicEntity
     {
         private int gender = 0;
 
         private Point sheetSize;
-        public Player(ContentManager content) : base(content)
+        public Player(Texture2D texture) : base(texture)
         {
-            texture = content.Load<Texture2D> (@"SpriteSheets\Female_sheet");
+            //texture = content.Load<Texture2D> (@"SpriteSheets\Female_sheet");
             
             sheetSize = new Point(texture.Width/64, texture.Height/64);
         }

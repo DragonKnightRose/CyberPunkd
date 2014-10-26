@@ -19,6 +19,7 @@ namespace CyberPunkd
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
+
         private int[][] tileMatrix;
         private int[] viewCorner;
         private Tile[] tileTable;
@@ -34,10 +35,20 @@ namespace CyberPunkd
 
 
 
+        private Player player;
+
+        //Just for testing
+        private Tile tile;
+        //public static ContentManager content;
+
+
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+
+            //content = Content;
+
         }
 
         /// <summary>
@@ -61,12 +72,16 @@ namespace CyberPunkd
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
+            Drawable.setSpriteBatch(spriteBatch);
+            player = new Player(Content.Load<Texture2D>(@"SpriteSheets\Female_sheet"));
+            tile = new Floor(Content.Load<Texture2D>(@"SpriteSheets\floor"));
+
             // TODO: use this.Content to load your game content here
             //load sprite maps
             
             //load tilesets
             tileTable = new Tile[3];
-            tileTable[FLOOR_TILE] = new Floor(Content.Load<Texture2D>("floor"));
+            tileTable[FLOOR_TILE] = tile;
             tileTable[WALL_TILE] = new Wall(Content.Load<Texture2D>("Walls"));
             //load map files
             LoadMap("tutorial");
@@ -122,7 +137,18 @@ namespace CyberPunkd
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             // TODO: Add your drawing code here
+
+            
+
+            // TODO: Draw world
+            // TODO: Draw Player
+            spriteBatch.Begin();
+            //player.draw(gameTime, );
+            //tile.draw(gameTime,100,100);
             DrawMap(gameTime);
+            spriteBatch.End();
+
+
             base.Draw(gameTime);
         }
 
@@ -159,16 +185,16 @@ namespace CyberPunkd
 
         private void DrawMap(GameTime gameTime)
         {
-            for (int x = 0; x < HORIZONTAL_TILES; x++)
+            for (int x = 0; x < HORIZONTAL_TILES-1; x++)
             {
-                for (int y = 0; y < VERTICAL_TILES; y++)
+                for (int y = 0; y < VERTICAL_TILES-1; y++)
                 {
                     //check that the desired [x,y] is within the map
                     int xGlobal = viewCorner[0] + x;
                     int yGlobal = viewCorner[1] + y;
-                    if (tileMatrix.GetLength(0)>=xGlobal)
+                    if (tileMatrix.GetLength(0) > xGlobal)
                     {
-                        if (tileMatrix[0].GetLength(0) >= yGlobal)
+                        if (tileMatrix[0].GetLength(0) > yGlobal)
                         {
                             //we're still on the map
                             //paint the tile at tileMatrix[xGlobal, yGlobal] at coords [x,y]
