@@ -21,6 +21,8 @@ namespace CyberPunkd
         private int[] location;
         private string state;
         private Point animationFrame;
+        private TimeSpan lastAnimate;
+        private TimeSpan timeSinceLastAnimate;
 
         private int SPELL_CAST = 0,
                     THRUST = 1,
@@ -37,8 +39,9 @@ namespace CyberPunkd
             //texture = content.Load<Texture2D> (@"SpriteSheets\Female_sheet");
             
             sheetSize = new Point(texture.Width/64, texture.Height/64);
-            location = new[] {initX, initY};
+            location = new[] {10, 6};
             state = "idle";
+            lastAnimate = new TimeSpan(0);
             animationFrame = new Point(0,11);
         }
 
@@ -59,6 +62,11 @@ namespace CyberPunkd
         public void setYCoord(int y)
         {
             location[1] = y;
+        }
+
+        public string getState()
+        {
+            return state;
         }
 
         public void walkUp()
@@ -157,7 +165,15 @@ namespace CyberPunkd
 
         public override void update(GameTime gameTime)
         {
-            int oldSpriteRow = spriteRow;
+            timeSinceLastAnimate = gameTime.TotalGameTime - lastAnimate;
+            if (timeSinceLastAnimate > new TimeSpan(0, 0, 0, 0, 60))
+            {
+                lastAnimate = gameTime.TotalGameTime;
+                animate(gameTime);
+            }
+                
+            
+            /*int oldSpriteRow = spriteRow;
             KeyboardState kb = Keyboard.GetState();
             if (kb.IsKeyDown(Keys.W) || kb.IsKeyDown(Keys.Up))
             {
@@ -181,9 +197,21 @@ namespace CyberPunkd
                 spriteRow = modeOffset*4;
 
             if(oldSpriteRow != spriteRow)
-                setSpriteFrame(new Point(spriteRow,0));
+                setSpriteFrame(new Point(spriteRow,0));*/
 
 
+        }
+
+        private void animate(GameTime gameTime)
+        {
+            if (state == "walkUp")
+                walkUp();
+            if (state == "walkDown")
+                walkDown();
+            if (state == "walkRight")
+                walkRight();
+            if (state == "walkLeft")
+                walkLeft();
         }
     }
 }

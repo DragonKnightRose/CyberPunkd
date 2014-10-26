@@ -1,9 +1,0 @@
-Content\SpriteSheets\Female_sheet.xnb
-Content\SpriteSheets\Cheif_custodial.xnb
-Content\SpriteSheets\Director_sheet2.xnb
-Content\SpriteSheets\floor.xnb
-Content\SpriteSheets\HR_sheet.xnb
-Content\SpriteSheets\Male_sheet.xnb
-Content\SpriteSheets\Security_Generic_sheet.xnb
-Content\SpriteSheets\Security_head_sheet.xnb
-Content\SpriteSheets\Walls.xnb
