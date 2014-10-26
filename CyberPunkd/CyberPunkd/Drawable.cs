@@ -24,8 +24,8 @@ namespace CyberPunkd
 
         protected Drawable(Texture2D texture)
         {
-            this.texture = texture; 
-           
+            this.texture = texture;
+            sheetSize = new Point(texture.Width / 64, texture.Height / 64);
             currentFrame = new Point(0, 0);
         }
 

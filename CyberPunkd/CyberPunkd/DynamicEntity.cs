@@ -12,9 +12,12 @@ namespace CyberPunkd
     {
         public DynamicEntity(Texture2D texture) : base (texture)
         {
-            
+            canCollide = true;
+
         }
 
 
+
+        
     }
 }
