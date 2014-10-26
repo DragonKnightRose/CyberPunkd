@@ -8,6 +8,7 @@ namespace CyberPunkd
 {
     abstract class Entity : Drawable
     {
+
         protected Entity(Texture2D texture) : base(texture)
         {
         }

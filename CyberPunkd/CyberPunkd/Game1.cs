@@ -19,6 +19,9 @@ namespace CyberPunkd
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         private Player player;
+
+        //Just for testing
+        private Tile tile;
         //public static ContentManager content;
 
         public Game1()
@@ -27,7 +30,7 @@ namespace CyberPunkd
             graphics.PreferredBackBufferWidth = 1280-64;
             graphics.PreferredBackBufferHeight = 800-64;
             Content.RootDirectory = "Content";
-            content = Content;
+            //content = Content;
         }
 
         /// <summary>
@@ -51,8 +54,9 @@ namespace CyberPunkd
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
-            player = new Player(Content);
-
+            Drawable.setSpriteBatch(spriteBatch);
+            player = new Player(Content.Load<Texture2D>(@"SpriteSheets\Female_sheet"));
+            tile = new Floor(Content.Load<Texture2D>(@"SpriteSheets\floor"));
             // TODO: use this.Content to load your game content here
         }
 
@@ -97,7 +101,8 @@ namespace CyberPunkd
             // TODO: Draw world
             // TODO: Draw Player
             spriteBatch.Begin();
-            player.draw(gameTime, spriteBatch);
+            //player.draw(gameTime, );
+            tile.draw(gameTime,100,100);
             spriteBatch.End();
 
             base.Draw(gameTime);

@@ -13,13 +13,13 @@ namespace CyberPunkd
         protected Texture2D texture;
         protected static SpriteBatch spriteBatch;
         //Points used in selecting a particular frame
-        protected const static Point frameSize = new Point(64,64);
+        protected static Point frameSize = new Point(64,64);
         protected Point currentFrame;
         protected Point sheetSize;
 
         public Boolean canCollide;
 
-        protected Point currentPosition;
+       
         protected int orientation = 0;
 
         protected Drawable(Texture2D texture)
@@ -41,6 +41,11 @@ namespace CyberPunkd
             return new Rectangle(select.X * frameSize.X,
                 select.Y * frameSize.Y,
                 frameSize.X, frameSize.Y);
+        }
+
+        public static void setSpriteBatch(SpriteBatch sb)
+        {
+            spriteBatch = sb;
         }
 
     }

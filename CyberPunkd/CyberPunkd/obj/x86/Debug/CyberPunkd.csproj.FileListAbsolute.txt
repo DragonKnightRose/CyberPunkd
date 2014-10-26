@@ -11,3 +11,11 @@ Z:\Z\Documents\Dev\CyberPunked\CyberPunkd\CyberPunkd\CyberPunkd\obj\x86\Debug\Cy
 Z:\Z\Documents\Dev\CyberPunked\CyberPunkd\CyberPunkd\CyberPunkd\obj\x86\Debug\Microsoft.Xna.Framework.RuntimeProfile.txt
 Z:\Z\Documents\Dev\CyberPunked\CyberPunkd\CyberPunkd\CyberPunkd\obj\x86\Debug\CyberPunkd.exe
 Z:\Z\Documents\Dev\CyberPunked\CyberPunkd\CyberPunkd\CyberPunkd\obj\x86\Debug\CyberPunkd.pdb
+Z:\Z\Documents\Dev\CyberPunked\CyberPunkd\CyberPunkd\CyberPunkd\bin\x86\Debug\Content\SpriteSheets\Cheif_custodial.xnb
+Z:\Z\Documents\Dev\CyberPunked\CyberPunkd\CyberPunkd\CyberPunkd\bin\x86\Debug\Content\SpriteSheets\Director_sheet2.xnb
+Z:\Z\Documents\Dev\CyberPunked\CyberPunkd\CyberPunkd\CyberPunkd\bin\x86\Debug\Content\SpriteSheets\floor.xnb
+Z:\Z\Documents\Dev\CyberPunked\CyberPunkd\CyberPunkd\CyberPunkd\bin\x86\Debug\Content\SpriteSheets\HR_sheet.xnb
+Z:\Z\Documents\Dev\CyberPunked\CyberPunkd\CyberPunkd\CyberPunkd\bin\x86\Debug\Content\SpriteSheets\Male_sheet.xnb
+Z:\Z\Documents\Dev\CyberPunked\CyberPunkd\CyberPunkd\CyberPunkd\bin\x86\Debug\Content\SpriteSheets\Security_Generic_sheet.xnb
+Z:\Z\Documents\Dev\CyberPunked\CyberPunkd\CyberPunkd\CyberPunkd\bin\x86\Debug\Content\SpriteSheets\Security_head_sheet.xnb
+Z:\Z\Documents\Dev\CyberPunked\CyberPunkd\CyberPunkd\CyberPunkd\bin\x86\Debug\Content\SpriteSheets\Walls.xnb

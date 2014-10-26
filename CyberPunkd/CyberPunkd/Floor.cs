@@ -15,9 +15,6 @@ namespace CyberPunkd
             canCollide = true;
         }
 
-        public override void draw(GameTime gameTime, Point position)
-        {
-            throw new NotImplementedException();
-        }
+     
     }
 }
