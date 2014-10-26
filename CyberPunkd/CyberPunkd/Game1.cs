@@ -149,7 +149,8 @@ namespace CyberPunkd
             // TODO: Add your update logic here
             //player update
                 //sense input
-            Console.WriteLine(gameTime.TotalGameTime.Milliseconds);
+            //Console.WriteLine(gameTime.TotalGameTime.Milliseconds);
+            movePlayer();
             moveView();
             
             
@@ -246,21 +247,10 @@ namespace CyberPunkd
                             int tileTableIndex = tileMatrix[yGlobal][xGlobal];
                             if (tileTableIndex != EMPTY_TILE)
                             {
-                                tileTable[tileTableIndex].draw(gameTime,x, y);
+                                tileTable[tileTableIndex].draw(gameTime, x, y);
                             }
-                            
-                        }
-                        else
-                        {
-                            //we're off the map, paint empty tile
-                            //tileTable[EMPTY_TILE].draw(gameTime,x, y);
 
                         }
-                    }
-                    else
-                    {
-                        //we're off the map, paint empty tile
-                        //tileTable[EMPTY_TILE].draw(gameTime, x, y);
                     }
                 }
             }
@@ -324,19 +314,19 @@ namespace CyberPunkd
             //player pressing down
             if (keys.IsKeyDown(Keys.S) || keys.IsKeyDown(Keys.Down))
             {
-                
+                player.walkDown();
             }
 
             //player pressing left
             if (keys.IsKeyDown(Keys.A) || keys.IsKeyDown(Keys.Left))
             {
-                
+                player.walkLeft();   
             }
 
             //player pressing right
             if (keys.IsKeyDown(Keys.D) || keys.IsKeyDown(Keys.Right))
             {
-                
+                player.walkRight();
             }
         
         }

@@ -20,7 +20,7 @@ namespace CyberPunkd
         private int spriteRow = 0;
         private int[] location;
         private string state;
-        private Point currentFrame;
+        private Point animationFrame;
 
         private int SPELL_CAST = 0,
                     THRUST = 1,
@@ -39,7 +39,7 @@ namespace CyberPunkd
             sheetSize = new Point(texture.Width/64, texture.Height/64);
             location = new[] {initX, initY};
             state = "idle";
-            currentFrame = new Point(0,12);
+            animationFrame = new Point(0,11);
         }
 
         public int getXCoord()
@@ -63,21 +63,101 @@ namespace CyberPunkd
 
         public void walkUp()
         {
-            
+            if (state != "walkUp")
+            {
+                state = "walkUp";
+                animationFrame = new Point(0,8);
+            }
+            else
+            {
+                int x = animationFrame.X;
+                if (x == 8)
+                {
+                    x = 0;
+                }
+                else
+                {
+                    x++;
+                }
+                animationFrame = new Point(x, animationFrame.Y);
+            }
+        }
+        public void walkDown()
+        {
+            if (state != "walkDown")
+            {
+                state = "walkDown";
+                animationFrame = new Point(0, 10);
+            }
+            else
+            {
+                int x = animationFrame.X;
+                if (x == 8)
+                {
+                    x = 0;
+                }
+                else
+                {
+                    x++;
+                }
+                animationFrame = new Point(x, animationFrame.Y);
+            }
+        }
+        public void walkRight()
+        {
+            if (state != "walkRight")
+            {
+                state = "walkRight";
+                animationFrame = new Point(0, 11);
+            }
+            else
+            {
+                int x = animationFrame.X;
+                if (x == 8)
+                {
+                    x = 0;
+                }
+                else
+                {
+                    x++;
+                }
+                animationFrame = new Point(x, animationFrame.Y);
+            }
+        }
+        public void walkLeft()
+        {
+            if (state != "walkLeft")
+            {
+                state = "walkLeft";
+                animationFrame = new Point(0, 9);
+            }
+            else
+            {
+                int x = animationFrame.X;
+                if (x == 8)
+                {
+                    x = 0;
+                }
+                else
+                {
+                    x++;
+                }
+                animationFrame = new Point(x, animationFrame.Y);
+            }
         }
        
         
-       /*public override void draw(GameTime gameTime,  Point position)
+       public override void draw(GameTime gameTime,  Point position)
         {
-           setSpriteFrame(currentFrame);
-            spriteBatch.Draw(texture,new Vector2(position.X, position.Y), getFrameRectangle(currentFrame),Color.White);
+           setSpriteFrame(animationFrame);
+           spriteBatch.Draw(texture, new Vector2(position.X, position.Y), getFrameRectangle(currentFrame),
+               Color.White);
             //throw new NotImplementedException();
-        }*/
+        }
 
         public override void update(GameTime gameTime)
         {
             int oldSpriteRow = spriteRow;
-            setSpriteFrame(currentFrame);
             KeyboardState kb = Keyboard.GetState();
             if (kb.IsKeyDown(Keys.W) || kb.IsKeyDown(Keys.Up))
             {
