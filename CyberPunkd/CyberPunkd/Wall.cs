@@ -11,7 +11,7 @@ namespace CyberPunkd
     {
         public Wall(Texture2D texture) : base(texture)
         {
-            canCollide = false;
+            canCollide = true;
         }
 
        

@@ -72,7 +72,7 @@
     <Reference Include="System.Net" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Actor.cs" />
+    <Compile Include="DynamicEntity.cs" />
     <Compile Include="Drawable.cs" />
     <Compile Include="Entity.cs" />
     <Compile Include="Floor.cs" />

@@ -12,7 +12,7 @@ namespace CyberPunkd
         
         public Floor(Texture2D texture) : base(texture)
         {
-            canCollide = true;
+            canCollide = false;
         }
 
      

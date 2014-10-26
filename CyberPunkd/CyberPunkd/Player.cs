@@ -11,7 +11,7 @@ namespace CyberPunkd
 {
 
     // TODO: Refractor frame selection code into Entity class.
-    class Player : Actor
+    class Player : DynamicEntity
     {
         private int gender = 0;
 
