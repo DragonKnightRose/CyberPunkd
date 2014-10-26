@@ -37,7 +37,7 @@ namespace CyberPunkd
 
         public void draw(GameTime gameTime, int x, int y)
         {
-            draw(gameTime, new Point(x,y));
+            draw(gameTime, new Point(x*64,y*64));
         }
 
 
