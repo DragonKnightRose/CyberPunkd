@@ -1,11 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.30723.0
+VisualStudioVersion = 12.0.21005.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CyberPunkd", "CyberPunkd\CyberPunkd\CyberPunkd.csproj", "{A9EF07FC-7983-40FE-8145-14CD425F2BE8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CyberPunkd", "CyberPunkd\CyberPunkd\CyberPunkd.csproj", "{FDFE0729-DC04-4FB4-9840-32DCB2F0A2CA}"
 EndProject
-Project("{96E2B04D-8817-42C6-938A-82C39BA4D311}") = "CyberPunkdContent", "CyberPunkd\CyberPunkdContent\CyberPunkdContent.contentproj", "{A7BE97B6-21F1-4EE0-8918-50D985AB91AE}"
+Project("{96E2B04D-8817-42C6-938A-82C39BA4D311}") = "CyberPunkdContent", "CyberPunkd\CyberPunkdContent\CyberPunkdContent.contentproj", "{B4270FA6-7BF0-40F2-B79E-034B00EB18AE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -13,12 +13,12 @@ Global
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{A9EF07FC-7983-40FE-8145-14CD425F2BE8}.Debug|x86.ActiveCfg = Debug|x86
-		{A9EF07FC-7983-40FE-8145-14CD425F2BE8}.Debug|x86.Build.0 = Debug|x86
-		{A9EF07FC-7983-40FE-8145-14CD425F2BE8}.Release|x86.ActiveCfg = Release|x86
-		{A9EF07FC-7983-40FE-8145-14CD425F2BE8}.Release|x86.Build.0 = Release|x86
-		{A7BE97B6-21F1-4EE0-8918-50D985AB91AE}.Debug|x86.ActiveCfg = Debug|x86
-		{A7BE97B6-21F1-4EE0-8918-50D985AB91AE}.Release|x86.ActiveCfg = Release|x86
+		{FDFE0729-DC04-4FB4-9840-32DCB2F0A2CA}.Debug|x86.ActiveCfg = Debug|x86
+		{FDFE0729-DC04-4FB4-9840-32DCB2F0A2CA}.Debug|x86.Build.0 = Debug|x86
+		{FDFE0729-DC04-4FB4-9840-32DCB2F0A2CA}.Release|x86.ActiveCfg = Release|x86
+		{FDFE0729-DC04-4FB4-9840-32DCB2F0A2CA}.Release|x86.Build.0 = Release|x86
+		{B4270FA6-7BF0-40F2-B79E-034B00EB18AE}.Debug|x86.ActiveCfg = Debug|x86
+		{B4270FA6-7BF0-40F2-B79E-034B00EB18AE}.Release|x86.ActiveCfg = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
