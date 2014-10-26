@@ -9,6 +9,13 @@ namespace CyberPunkd
 {
     abstract class Entity : Drawable
     {
+        //autoAnimate controls whether under the default draw(), we automatically cycle through
+        //the animations on a row. If you set this to true, make sure that animationSequenceLength[]
+        //is set.
+        //TODO: Implement this.
+        protected Boolean autoAnimate = false;
+        //animationSequenceLength is used to to represent how many animation frames are in each row.
+        protected int[] animationSequenceLength;
 
         protected Entity(Texture2D texture) : base(texture)
         {

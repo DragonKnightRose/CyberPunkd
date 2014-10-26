@@ -10,6 +10,9 @@ namespace CyberPunkd
 {
     abstract class DynamicEntity : Entity
     {
+        private const int INVINCIBLE = 10000;
+        protected int health = INVINCIBLE;
+        
         public DynamicEntity(Texture2D texture) : base (texture)
         {
             canCollide = true;

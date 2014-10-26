@@ -37,8 +37,8 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="SpriteSheets\Cheif_custodial.png">
-      <Name>Cheif_custodial</Name>
+    <Compile Include="SpriteSheets\Chief_Custodial.png">
+      <Name>Chief_Custodial</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
@@ -47,8 +47,8 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="SpriteSheets\floor.png">
-      <Name>floor</Name>
+    <Compile Include="SpriteSheets\Floor.png">
+      <Name>Floor</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
