@@ -21,7 +21,6 @@ namespace CyberPunkd
         SpriteBatch spriteBatch;
 
         private int[][] tileMatrix;
-        private int[] viewCorner;
         private Tile[] tileTable;
         private const int EMPTY_TILE = 0;
         private const int FLOOR_TILE = 1;
@@ -43,9 +42,12 @@ namespace CyberPunkd
         private const int HORIZONTAL_TILES = SCREEN_WIDTH/TILE_WIDTH;
         private const int VERTICAL_TILES = SCREEN_HEIGHT/TILE_HEIGHT;
 
-
-
+        private int[] viewCorner;
         private Player player;
+
+        private TimeSpan timeSinceLastMove;
+        private TimeSpan lastMove;
+
 
         //Just for testing
         private Tile tile;
@@ -58,7 +60,7 @@ namespace CyberPunkd
             Content.RootDirectory = "Content";
 
             //content = Content;
-
+            //TargetElapsedTime = new TimeSpan(0, 0, 0, 0, 80);
         }
 
         /// <summary>
@@ -73,6 +75,8 @@ namespace CyberPunkd
             graphics.PreferredBackBufferHeight = SCREEN_HEIGHT-64-32;
             graphics.PreferredBackBufferWidth = SCREEN_WIDTH-64;
             graphics.ApplyChanges();
+
+            lastMove = new TimeSpan(0,0,0);
             base.Initialize();
         }
 
@@ -86,7 +90,7 @@ namespace CyberPunkd
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             Drawable.setSpriteBatch(spriteBatch);
-            player = new Player(Content.Load<Texture2D>(@"SpriteSheets\Female_sheet"),0,7);
+            player = new Player(Content.Load<Texture2D>(@"SpriteSheets\Female_sheet"),9,5);
             tile = new Floor(Content.Load<Texture2D>(@"SpriteSheets\floor"));
 
             // TODO: use this.Content to load your game content here
@@ -121,8 +125,8 @@ namespace CyberPunkd
             tileTable[WALL_LR_TILE].setSpriteFrame(new Point(3, 1));
             
             //load map files
-            LoadMap("tutorial");
             viewCorner = new[] {0, 0};
+            LoadMap("tutorial");
 
         }
 
@@ -148,15 +152,29 @@ namespace CyberPunkd
 
             // TODO: Add your update logic here
             //player update
+            timeSinceLastMove = gameTime.TotalGameTime - lastMove;
                 //sense input
-            //Console.WriteLine(gameTime.TotalGameTime.Milliseconds);
-            movePlayer();
-            moveView();
-            
-            
-            
+            if (timeSinceLastMove > new TimeSpan(0, 0, 0, 0, 80))
+            {
+                lastMove = gameTime.TotalGameTime;
+                MovePlayer();
+
+
                 //compute restrictions
+                bool collide = CheckWallCollision();
+                Console.WriteLine("collide: :" + collide);
+
                 //update player stats
+                if (!collide)
+                {
+                    MoveView();
+                }
+            }
+            else
+            {
+                player.update(gameTime);
+            }         
+
             //world update
                 //passive elements
                     //select active zone
@@ -189,9 +207,7 @@ namespace CyberPunkd
             //player.draw(gameTime, );
             //tile.draw(gameTime,100,100);
             DrawMap(gameTime);
-            Console.WriteLine("Player X:" + player.getXCoord());
-            Console.WriteLine("Player Y:" + player.getYCoord());
-            player.draw(gameTime, new Point(576, 336));
+            player.draw(gameTime, new Point(640, 368));
             spriteBatch.End();
 
 
@@ -206,9 +222,13 @@ namespace CyberPunkd
             {
                 case "tutorial":
                     filePath = "Content/maps/Tutorial Map.csv";
+                    viewCorner[0] = 0;
+                    viewCorner[1] = 10;
                     break;
                 default:
                     filePath = "Content/maps/Tutorial Map.csv";
+                    viewCorner[0] = 0;
+                    viewCorner[1] = 10;
                     break;
             }
 
@@ -256,7 +276,7 @@ namespace CyberPunkd
             }
         }
 
-        private void moveView()
+        private void MoveView()
         {
             KeyboardState keys = Keyboard.GetState();
 
@@ -301,7 +321,7 @@ namespace CyberPunkd
             }
         }
 
-        public void movePlayer()
+        public void MovePlayer()
         {
             KeyboardState keys = Keyboard.GetState();
 
@@ -329,6 +349,49 @@ namespace CyberPunkd
                 player.walkRight();
             }
         
+        }
+
+        public bool CheckWallCollision()
+        {
+            int destinationTileType;
+            int destinationX;
+            int destinationY;
+            switch (player.getState())
+            {
+                case ("walkUp"):
+                    destinationX = viewCorner[0] + player.getXCoord();
+                    destinationY = viewCorner[1] + player.getYCoord() - 1;
+                    break;
+                case ("walkDown"):
+                    destinationX = viewCorner[0] + player.getXCoord();
+                    destinationY = viewCorner[1] + player.getYCoord() + 1;
+                    break;
+                case ("walkRight"):
+                    destinationX = viewCorner[0] + player.getXCoord() + 1;
+                    destinationY = viewCorner[1] + player.getYCoord();
+                    break;
+                case ("walkLeft"):
+                    destinationX = viewCorner[0] + player.getXCoord() - 1;
+                    destinationY = viewCorner[1] + player.getYCoord();
+                    break;
+                default:
+                    return false;
+            }
+
+            destinationTileType = tileMatrix[destinationY][destinationX];
+
+            //debug info
+            Console.WriteLine("Player X:" + (player.getXCoord()+viewCorner[0]));
+            Console.WriteLine("Player Y:" + (player.getYCoord()+viewCorner[1]));
+            Console.WriteLine("Destination Tile: (" + destinationX + ", " + destinationY + ")");
+            Console.WriteLine("Tile Type: " + destinationTileType);
+
+            if(destinationTileType != EMPTY_TILE)
+                return tileTable[destinationTileType].canCollide;
+            else
+            {
+                return false;
+            }
         }
     }
 }
