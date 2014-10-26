@@ -25,11 +25,21 @@ namespace CyberPunkd
         private Tile[] tileTable;
         private const int EMPTY_TILE = 0;
         private const int FLOOR_TILE = 1;
-        private const int WALL_TILE = 2;
+
+        private const int WALL_LEFT_TILE = 2;
+        private const int WALL_TOP_TILE = 3;
+        private const int WALL_BOTTOM_TILE = 4;
+        private const int WALL_RIGHT_TILE = 5;
+        private const int WALL_LL_TILE = 6;
+        private const int WALL_UL_TILE = 7;
+        private const int WALL_UR_TILE = 8;
+        private const int WALL_LR_TILE = 9;
+        
+
         private const int TILE_WIDTH = 64;
         private const int TILE_HEIGHT = 64;
-        private const int SCREEN_WIDTH = 800;
-        private const int SCREEN_HEIGHT = 1280;
+        private const int SCREEN_WIDTH = 1280;
+        private const int SCREEN_HEIGHT = 800;
         private const int HORIZONTAL_TILES = SCREEN_WIDTH/TILE_WIDTH;
         private const int VERTICAL_TILES = SCREEN_HEIGHT/TILE_HEIGHT;
 
@@ -60,6 +70,10 @@ namespace CyberPunkd
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
+            graphics.PreferredBackBufferHeight = SCREEN_HEIGHT-64-32;
+            graphics.PreferredBackBufferWidth = SCREEN_WIDTH-64;
+            graphics.ApplyChanges();
+            
             base.Initialize();
         }
 
@@ -80,9 +94,33 @@ namespace CyberPunkd
             //load sprite maps
             
             //load tilesets
-            tileTable = new Tile[3];
+            tileTable = new Tile[9];
             tileTable[FLOOR_TILE] = tile;
-            tileTable[WALL_TILE] = new Wall(Content.Load<Texture2D>("Walls"));
+
+            tileTable[WALL_LEFT_TILE] = new Wall(Content.Load<Texture2D>("Walls"));
+            tileTable[WALL_LEFT_TILE].setSpriteFrame(new Point(0,0));
+
+            tileTable[WALL_TOP_TILE] = new Wall(Content.Load<Texture2D>("Walls"));
+            tileTable[WALL_TOP_TILE].setSpriteFrame(new Point(1, 0));
+
+            tileTable[WALL_BOTTOM_TILE] = new Wall(Content.Load<Texture2D>("Walls"));
+            tileTable[WALL_BOTTOM_TILE].setSpriteFrame(new Point(2, 0));
+
+            tileTable[WALL_RIGHT_TILE] = new Wall(Content.Load<Texture2D>("Walls"));
+            tileTable[WALL_RIGHT_TILE].setSpriteFrame(new Point(3, 0));
+
+            tileTable[WALL_LL_TILE] = new Wall(Content.Load<Texture2D>("Walls"));
+            tileTable[WALL_LL_TILE].setSpriteFrame(new Point(0, 1));
+
+            tileTable[WALL_UL_TILE] = new Wall(Content.Load<Texture2D>("Walls"));
+            tileTable[WALL_UL_TILE].setSpriteFrame(new Point(1, 1));
+
+            tileTable[WALL_UR_TILE] = new Wall(Content.Load<Texture2D>("Walls"));
+            tileTable[WALL_UR_TILE].setSpriteFrame(new Point(2, 1));
+
+            tileTable[WALL_LR_TILE] = new Wall(Content.Load<Texture2D>("Walls"));
+            tileTable[WALL_LR_TILE].setSpriteFrame(new Point(3, 1));
+            
             //load map files
             LoadMap("tutorial");
             viewCorner = new[] {0, 0};
@@ -112,6 +150,8 @@ namespace CyberPunkd
             // TODO: Add your update logic here
             //player update
                 //sense input
+            KeyboardState keys = Keyboard.GetState();
+            
                 //compute restrictions
                 //update player stats
             //world update
@@ -134,7 +174,7 @@ namespace CyberPunkd
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            GraphicsDevice.Clear(Color.Black);
 
             // TODO: Add your drawing code here
 
@@ -192,13 +232,13 @@ namespace CyberPunkd
                     //check that the desired [x,y] is within the map
                     int xGlobal = viewCorner[0] + x;
                     int yGlobal = viewCorner[1] + y;
-                    if (tileMatrix.GetLength(0) > xGlobal)
+                    if (tileMatrix.GetLength(0) > yGlobal)
                     {
-                        if (tileMatrix[0].GetLength(0) > yGlobal)
+                        if (tileMatrix[0].GetLength(0) > xGlobal)
                         {
                             //we're still on the map
                             //paint the tile at tileMatrix[xGlobal, yGlobal] at coords [x,y]
-                            int tileTableIndex = tileMatrix[xGlobal][yGlobal];
+                            int tileTableIndex = tileMatrix[yGlobal][xGlobal];
                             if (tileTableIndex != EMPTY_TILE)
                             {
                                 tileTable[tileTableIndex].draw(gameTime,x, y);
