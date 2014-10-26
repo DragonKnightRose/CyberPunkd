@@ -13,7 +13,7 @@ namespace CyberPunkd
         protected Texture2D texture;
         protected static SpriteBatch spriteBatch;
         //Points used in selecting a particular frame
-        protected const static Point frameSize = new Point(64,64);
+        protected static Point frameSize = new Point(64,64);
         protected Point currentFrame;
         protected Point sheetSize;
 

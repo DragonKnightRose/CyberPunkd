@@ -63,7 +63,11 @@ namespace CyberPunkd
 
             // TODO: use this.Content to load your game content here
             //load sprite maps
+            
             //load tilesets
+            tileTable = new Tile[3];
+            tileTable[FLOOR_TILE] = new Floor(Content.Load<Texture2D>("floor"));
+            tileTable[WALL_TILE] = new Wall(Content.Load<Texture2D>("Walls"));
             //load map files
             LoadMap("tutorial");
             viewCorner = new[] {0, 0};
@@ -164,24 +168,28 @@ namespace CyberPunkd
                     int yGlobal = viewCorner[1] + y;
                     if (tileMatrix.GetLength(0)>=xGlobal)
                     {
-                        if (tileMatrix.GetLength(1) >= yGlobal)
+                        if (tileMatrix[0].GetLength(0) >= yGlobal)
                         {
                             //we're still on the map
                             //paint the tile at tileMatrix[xGlobal, yGlobal] at coords [x,y]
                             int tileTableIndex = tileMatrix[xGlobal][yGlobal];
-                            tileTable[tileTableIndex].draw(gameTime,x, y);
+                            if (tileTableIndex != EMPTY_TILE)
+                            {
+                                tileTable[tileTableIndex].draw(gameTime,x, y);
+                            }
+                            
                         }
                         else
                         {
                             //we're off the map, paint empty tile
-                            tileTable[EMPTY_TILE].draw(gameTime,x, y);
+                            //tileTable[EMPTY_TILE].draw(gameTime,x, y);
 
                         }
                     }
                     else
                     {
                         //we're off the map, paint empty tile
-                        tileTable[EMPTY_TILE].draw(gameTime, x, y);
+                        //tileTable[EMPTY_TILE].draw(gameTime, x, y);
                     }
                 }
             }
