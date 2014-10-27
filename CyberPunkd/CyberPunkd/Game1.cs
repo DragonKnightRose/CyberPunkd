@@ -20,14 +20,17 @@ namespace CyberPunkd
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
+        //map representation variables
         private ObjectGrid objectGrid;
         private List<Entity> activeObjects;
         private int[][] tileMatrix;
         private Tile[] tileTable;
 
+        //floor constant definitions
         private const int EMPTY_TILE = 0;
         private const int FLOOR_TILE = 1;
 
+        //wall constant definitions
         private const int WALL_LEFT_TILE = 2;
         private const int WALL_TOP_TILE = 3;
         private const int WALL_BOTTOM_TILE = 4;
@@ -44,7 +47,7 @@ namespace CyberPunkd
 
         private const int WALL_SHOOTABLE_UPPER = 15;
         
-
+        //constant definitions for screen and tile size
         private const int TILE_WIDTH = 64;
         private const int TILE_HEIGHT = 64;
         private const int SCREEN_WIDTH = 1280;
@@ -52,25 +55,23 @@ namespace CyberPunkd
         private const int HORIZONTAL_TILES = SCREEN_WIDTH/TILE_WIDTH;
         private const int VERTICAL_TILES = SCREEN_HEIGHT/TILE_HEIGHT;
 
+        //player object and view
         private int[] viewCorner;
         private Player player;
 
+        //timing variables
         private TimeSpan timeSinceLastMove;
         private TimeSpan lastMove;
         private TimeSpan tickTime;
 
+        //textures
         private Texture2D wallSpriteMap;
         private Texture2D shootableWallSpriteMap;
-
-
-        //Just for testing
-        private Tile tile;
         private Texture2D bathroomDoorSpriteMap;
         private Texture2D normalDoorSpriteMap;
         private Texture2D keycardDoorSpriteMap;
         private Texture2D generalSecuritySpriteMap;
         private Texture2D securityHeadSpriteMap;
-        //public static ContentManager content;
 
 
         public Game1()
@@ -78,8 +79,6 @@ namespace CyberPunkd
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
 
-            //content = Content;
-            //TargetElapsedTime = new TimeSpan(1000);
         }
 
         /// <summary>
@@ -91,10 +90,12 @@ namespace CyberPunkd
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
+            //set the screen resolution
             graphics.PreferredBackBufferHeight = SCREEN_HEIGHT-64-32;
             graphics.PreferredBackBufferWidth = SCREEN_WIDTH-64;
             graphics.ApplyChanges();
 
+            //initialize the time since last player input and the standard time unit for the game
             lastMove = new TimeSpan(0,0,0);
             tickTime = TargetElapsedTime;
             base.Initialize();
@@ -111,6 +112,7 @@ namespace CyberPunkd
 
             Drawable.setSpriteBatch(spriteBatch);
 
+            //load spriteMaps for later use
             wallSpriteMap = Content.Load<Texture2D>(@"SpriteSheets\Walls");
             shootableWallSpriteMap = Content.Load<Texture2D>(@"SpriteSheets\Walls_Shootable");
             bathroomDoorSpriteMap = Content.Load<Texture2D>(@"SpriteSheets\Wall_bathroom");
@@ -119,22 +121,15 @@ namespace CyberPunkd
             generalSecuritySpriteMap = Content.Load<Texture2D>(@"SpriteSheets\Security_Generic_sheet");
             securityHeadSpriteMap = Content.Load<Texture2D>(@"SpriteSheets\Security_head_sheet");
 
-
+            //create player object
             player = new Player(Content.Load<Texture2D>(@"SpriteSheets\Female_sheet"), tickTime);
-            tile = new Floor(Content.Load<Texture2D>(@"SpriteSheets\floor"));
-            //tile = new Floor(Content.Load<Texture2D>(@"SpriteSheets\Wall_bathroom"));
-            //tile = new Floor(bathroomDoorSpriteMap);
-
-            // TODO: use this.Content to load your game content here
-            //load sprite maps
             
 
-            Console.WriteLine("shootable set: "+shootableWallSpriteMap.ToString());
-            Console.WriteLine("regular set: "+wallSpriteMap.ToString());
-
-            //load tilesets
+            // TODO: use this.Content to load your game content here
+           
+            //load tileset into tileTable
             tileTable = new Tile[22];
-            tileTable[FLOOR_TILE] = tile;
+            tileTable[FLOOR_TILE] = new Floor(Content.Load<Texture2D>(@"SpriteSheets\floor")); ;
 
             tileTable[WALL_LEFT_TILE] = new Wall(wallSpriteMap);
             tileTable[WALL_LEFT_TILE].setSpriteFrame(new Point(0,0));
@@ -175,7 +170,7 @@ namespace CyberPunkd
             tileTable[WALL_SHOOTABLE_UPPER] = new Wall(shootableWallSpriteMap);
             tileTable[WALL_SHOOTABLE_UPPER].setSpriteFrame(new Point(2, 0));
             
-            //load map files
+            //create viewport and load map files
             viewCorner = new[] {0, 0};
             LoadMap("tutorial");
 
@@ -188,6 +183,7 @@ namespace CyberPunkd
         protected override void UnloadContent()
         {
             // TODO: Unload any non ContentManager content here
+            Content.Dispose();
         }
 
         /// <summary>
@@ -198,29 +194,30 @@ namespace CyberPunkd
         protected override void Update(GameTime gameTime)
         {
             // Allows the game to exit
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
-                this.Exit();
             if (Keyboard.GetState().IsKeyDown(Keys.Escape))
                 this.Exit();
 
             // TODO: Add your update logic here
             //player update
+
+            //determine how long it's been since we've let the player move
             timeSinceLastMove = gameTime.TotalGameTime - lastMove;
-                //sense input
+               //sense input
+            //Let the player move if more than 5 ticks have occurred
             if (timeSinceLastMove > new TimeSpan (5 * tickTime.Ticks))
             {
                 lastMove = gameTime.TotalGameTime;
-                MovePlayer();
+                AnimatePlayer();
 
 
-                //compute restrictions
-                bool collide = CheckWallCollision();
-                Console.WriteLine("collide: :" + collide);
+                //check for player collisions
+                bool collide = CheckPlayerCollision();
+                //Console.WriteLine("collide: :" + collide);
 
                 //update player stats
                 if (!collide)
                 {
-                    MoveView();
+                    MovePlayer();
                 }
             }
             else
@@ -260,14 +257,17 @@ namespace CyberPunkd
 
             
 
-            // TODO: Draw world
-            // TODO: Draw Player
+            
+            //drawable objects must be in a spriteBatch!
             spriteBatch.Begin();
-            //player.draw(gameTime, );
-            //tile.draw(gameTime,100,100);
+
+            // TODO: Draw world
             DrawMap(gameTime);
-            DrawObjects(gameTime, activeObjects);
+            DrawObjects(gameTime);
+
+            // TODO: Draw Player
             player.draw(gameTime, new Point(640, 368));
+
             spriteBatch.End();
 
 
@@ -294,7 +294,7 @@ namespace CyberPunkd
                     break;
             }
 
-            //read the file in
+            //read the .csv file in
             sr = new StreamReader(filePath);
             var lines = new List<int[]>();
             while (!sr.EndOfStream)
@@ -308,15 +308,25 @@ namespace CyberPunkd
                 lines.Add(intLine);
             }
 
+            //store file in tileMatrix
+            //Note: due to the way the file is read, the map is in the form tileMatrix[y][x].
+            //  x and y are reversed!
             tileMatrix = lines.ToArray();
             sr.Close();
 
+            //create the grids for tracking objects
             //load in objects
+            objectGrid = new ObjectGrid(tileMatrix[0].GetLength(0), tileMatrix.GetLength(0), SCREEN_WIDTH, SCREEN_HEIGHT);
+            
+            //choose what set of objects to load based on the map
             switch (mapname)
             {
+                    //objects are added by:
+                    //1. make the object with coordinates and texture
+                    //2. set the correct sprite for the object
+                    //3. set collision/coordinates
+                    //4. add the object to the objectGrid
                 case "tutorial":
-                    objectGrid = new ObjectGrid(tileMatrix[0].GetLength(0), tileMatrix.GetLength(0), SCREEN_WIDTH, SCREEN_HEIGHT);
-                    
                     Door entrance = new Door(keycardDoorSpriteMap, 10, 16);
                     entrance.setSpriteFrame(new Point(3,0));
                     entrance.canCollide = true;
@@ -337,17 +347,15 @@ namespace CyberPunkd
                     yellowSecurity.setSpriteFrame(new Point(0,9));
                     objectGrid.AddObject(yellowSecurity);
                     break;
-                default:
-                    objectGrid = new ObjectGrid(tileMatrix[0].GetLength(0), tileMatrix.GetLength(0), SCREEN_WIDTH, SCREEN_HEIGHT);
-                    objectGrid.AddObject(new Door(bathroomDoorSpriteMap, 10, 16));
-                    break;
             }
         }
 
         private void DrawMap(GameTime gameTime)
         {
+            //iterate through horizontal tiles
             for (int x = 0; x < HORIZONTAL_TILES-1; x++)
             {
+                //iterate through vertical tiles
                 for (int y = 0; y < VERTICAL_TILES-1; y++)
                 {
                     //check that the desired [x,y] is within the map
@@ -371,10 +379,15 @@ namespace CyberPunkd
             }
         }
 
-        private void MoveView()
+        private void MovePlayer()
         {
+            //find out what keys are being pressed
             KeyboardState keys = Keyboard.GetState();
+
+            //the player's current state
             Player.States state = player.getState();
+
+            //move the view based on what's being pressed
             //player pressing up
             if (state == Player.States.WalkUp)
             {
@@ -425,7 +438,7 @@ namespace CyberPunkd
             
         }
 
-        private void MovePlayer()
+        private void AnimatePlayer()
         {
             KeyboardState keys = Keyboard.GetState();
 
@@ -433,13 +446,16 @@ namespace CyberPunkd
             
         }
 
-        private bool CheckWallCollision()
+        private bool CheckPlayerCollision()
         {
             int destinationTileType;
             int destinationX;
             int destinationY;
+
+            //find out which way the player is moving
             switch (player.getState())
             {
+                //adding the appropriate coordinate for viewCorner translates between local and world coordinates
                 case (Player.States.WalkUp):
                     destinationX = viewCorner[0] + player.getXCoord();
                     destinationY = viewCorner[1] + player.getYCoord() - 1;
@@ -460,47 +476,48 @@ namespace CyberPunkd
                     return false;
             }
 
+            //check to see what type of tile is at the destination
             destinationTileType = tileMatrix[destinationY][destinationX];
 
             //debug info
-            Console.WriteLine("Player X:" + (player.getXCoord()+viewCorner[0]));
-            Console.WriteLine("Player Y:" + (player.getYCoord()+viewCorner[1]));
-            Console.WriteLine("Destination Tile: (" + destinationX + ", " + destinationY + ")");
-            Console.WriteLine("Tile Type: " + destinationTileType);
+            //Console.WriteLine("Player X:" + (player.getXCoord()+viewCorner[0]));
+            //Console.WriteLine("Player Y:" + (player.getYCoord()+viewCorner[1]));
+            //Console.WriteLine("Destination Tile: (" + destinationX + ", " + destinationY + ")");
+            //Console.WriteLine("Tile Type: " + destinationTileType);
 
+            //actual collision logic
+            //empty tiles don't have objects and can't cause collisions, floor tiles can have objects, though
             if (destinationTileType != EMPTY_TILE)
                 if(destinationTileType != FLOOR_TILE)
                     return tileTable[destinationTileType].canCollide;
                 else
                 {
+                    //check against activeObject list for any objects in the desitnation tile
                     foreach (Entity entity in activeObjects)
                     {
                         if(entity.getXCoords() == destinationX && entity.getYCoords() == destinationY)
                             return entity.canCollide;
                     }
+                    //no active objects in the destination
                     return false;
                 }
             else
             {
+                //empty tiles don't cause collisions
                 return false;
             }
         }
 
-        private void DrawObjects(GameTime gameTime, List<Entity> objects)
+        private void DrawObjects(GameTime gameTime)
         {
-            foreach (Entity entity in objects)
+            //iterate through the active objects
+            foreach (Entity entity in activeObjects)
             {
+                //go from global to local coords
                 entity.draw(gameTime, entity.getXCoords()-viewCorner[0], entity.getYCoords()-viewCorner[1]);
             }
         }
 
-        private void DrawObjects(GameTime gameTime, Door obj)
-        {
-            obj.draw(gameTime, obj.getXCoords(), obj.getYCoords());
-            if (false)
-            {
-            }
-
-        }
+        
     }
 }
