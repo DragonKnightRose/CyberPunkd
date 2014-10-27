@@ -243,12 +243,12 @@ namespace CyberPunkd
             switch (mapname)
             {
                 case "tutorial":
-                    filePath = "Content/maps/Tutorial Map.csv";
+                    filePath = @"Content/maps/Tutorial Map.csv";
                     viewCorner[0] = 0;
                     viewCorner[1] = 10;
                     break;
                 default:
-                    filePath = "Content/maps/Tutorial Map.csv";
+                    filePath = @"Content/maps/Tutorial Map.csv";
                     viewCorner[0] = 0;
                     viewCorner[1] = 10;
                     break;
@@ -290,6 +290,10 @@ namespace CyberPunkd
                             if (tileTableIndex != EMPTY_TILE && tileTableIndex != 15)
                             {
                                 tileTable[tileTableIndex].draw(gameTime, x, y);
+                            }
+                            else
+                            {
+                                //tileTable[FLOOR_TILE].draw(gameTime, x, y);
                             }
 
                         }
