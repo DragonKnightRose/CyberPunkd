@@ -16,11 +16,53 @@ namespace CyberPunkd
         private List<Entity> objects;
         private Grid[][] grids;
 
+        public ObjectGrid(int mWidth, int mHeight, int gWidth, int gHeight)
+        {
+            gridHeight = gHeight;
+            gridWidth = gWidth;
+            mapHeight = mHeight;
+            mapWidth = mWidth;
+
+            objects = new List<Entity>();
+
+            //created grids
+            int verticalGrids = mHeight/gHeight;
+            if (mHeight%gHeight != 0)
+                verticalGrids++;
+           
+            int horizontalGrids = mWidth/gWidth;
+            if (mWidth%gWidth != 0)
+                horizontalGrids++;
+
+            grids = new Grid[horizontalGrids][];
+
+            for (int i = 0; i < horizontalGrids; i++)
+            {
+                grids[i]=new Grid[verticalGrids];
+                for (int j = 0; j < verticalGrids; j++)
+                {
+                    grids[i][j]=new Grid();
+                }
+            }
+
+            
+
+
+
+        }
+
+        public void AddObject(Entity entity)
+        {
+            Grid targetGrid = FindGrid(entity.getXCoords(), entity.getYCoords());
+            objects.Add(entity);
+            targetGrid.Add(entity);
+            
+        }
         //parameters are expected to be in arrays of x, y format
         public List<Entity> GetActiveObjects(int[] upperLeftCorner, int[] upperRightCorner, int[] lowerLeftCorner, int[] lowerRightCorner)
         {
             List<Entity> activeObjects = new List<Entity>();
-            Grid[] foundGrid = new Grid[3];
+            Grid[] foundGrid = new Grid[4];
             foundGrid[0] = FindGrid(upperLeftCorner[0], upperLeftCorner[1]);
             foundGrid[1] = FindGrid(upperRightCorner[0], upperRightCorner[1]);
             foundGrid[2] = FindGrid(lowerLeftCorner[0], lowerLeftCorner[1]);
@@ -75,17 +117,22 @@ namespace CyberPunkd
     {
         private List<Entity> objects;
 
+        public Grid()
+        {
+            objects = new List<Entity>();
+        }
+
         public List<Entity> getObjects()
         {
             return objects;
         }
 
-        public void add(Entity entity)
+        public void Add(Entity entity)
         {
             objects.Add(entity);
         }
 
-        public void delete(Entity entity)
+        public void Delete(Entity entity)
         {
             objects.Remove(entity);
         }

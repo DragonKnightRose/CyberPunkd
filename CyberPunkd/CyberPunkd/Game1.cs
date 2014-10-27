@@ -20,8 +20,11 @@ namespace CyberPunkd
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
+        private ObjectGrid objectGrid;
+        private List<Entity> activeObjects;
         private int[][] tileMatrix;
         private Tile[] tileTable;
+
         private const int EMPTY_TILE = 0;
         private const int FLOOR_TILE = 1;
 
@@ -62,6 +65,7 @@ namespace CyberPunkd
 
         //Just for testing
         private Tile tile;
+        private Texture2D bathroomDoorSpriteMap;
         //public static ContentManager content;
 
 
@@ -109,6 +113,7 @@ namespace CyberPunkd
             //load sprite maps
             wallSpriteMap = Content.Load<Texture2D>(@"SpriteSheets\Walls");
             shootableWallSpriteMap = Content.Load<Texture2D>(@"SpriteSheets\Walls_Shootable");
+            bathroomDoorSpriteMap = Content.Load<Texture2D>(@"SpriteSheets\Wall_bathroom");
 
             Console.WriteLine("shootable set: "+shootableWallSpriteMap.ToString());
             Console.WriteLine("regular set: "+wallSpriteMap.ToString());
@@ -181,6 +186,8 @@ namespace CyberPunkd
             // Allows the game to exit
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 this.Exit();
+            if (Keyboard.GetState().IsKeyDown(Keys.Escape))
+                this.Exit();
 
             // TODO: Add your update logic here
             //player update
@@ -210,12 +217,18 @@ namespace CyberPunkd
             //world update
                 //passive elements
                     //select active zone
+            activeObjects = objectGrid.GetActiveObjects(viewCorner,
+            new[] { viewCorner[0] + SCREEN_WIDTH, viewCorner[1] },
+            new[] { viewCorner[0], viewCorner[1] + SCREEN_HEIGHT },
+            new[] { viewCorner[0] + SCREEN_WIDTH, viewCorner[1] + SCREEN_HEIGHT });
+            
                 //logic elements
                     //sort by relevance
                     //sense internal state/goals
                     //sense restrictions
                     //decision engine
                     //update world
+            
 
 
             base.Update(gameTime);
@@ -239,6 +252,7 @@ namespace CyberPunkd
             //player.draw(gameTime, );
             //tile.draw(gameTime,100,100);
             DrawMap(gameTime);
+            DrawObjects(gameTime, activeObjects);
             player.draw(gameTime, new Point(640, 368));
             spriteBatch.End();
 
@@ -250,6 +264,8 @@ namespace CyberPunkd
         {
             string filePath;
             StreamReader sr;
+
+            //choose which map is loaded
             switch (mapname)
             {
                 case "tutorial":
@@ -264,6 +280,7 @@ namespace CyberPunkd
                     break;
             }
 
+            //read the file in
             sr = new StreamReader(filePath);
             var lines = new List<int[]>();
             while (!sr.EndOfStream)
@@ -279,6 +296,19 @@ namespace CyberPunkd
 
             tileMatrix = lines.ToArray();
             sr.Close();
+
+            //load in objects
+            switch (mapname)
+            {
+                case "tutorial":
+                    objectGrid = new ObjectGrid(tileMatrix[0].GetLength(0), tileMatrix.GetLength(0), SCREEN_WIDTH, SCREEN_HEIGHT);
+                    objectGrid.AddObject(new Door(bathroomDoorSpriteMap, 10, 16));
+                    break;
+                default:
+                    objectGrid = new ObjectGrid(tileMatrix[0].GetLength(0), tileMatrix.GetLength(0), SCREEN_WIDTH, SCREEN_HEIGHT);
+                    objectGrid.AddObject(new Door(bathroomDoorSpriteMap, 10, 16));
+                    break;
+            }
         }
 
         private void DrawMap(GameTime gameTime)
@@ -300,10 +330,6 @@ namespace CyberPunkd
                             if (tileTableIndex != EMPTY_TILE)
                             {
                                 tileTable[tileTableIndex].draw(gameTime, x, y);
-                            }
-                            else
-                            {
-                                //tileTable[FLOOR_TILE].draw(gameTime, x, y);
                             }
 
                         }
@@ -366,7 +392,7 @@ namespace CyberPunkd
             
         }
 
-        public void MovePlayer()
+        private void MovePlayer()
         {
             KeyboardState keys = Keyboard.GetState();
 
@@ -374,7 +400,7 @@ namespace CyberPunkd
             
         }
 
-        public bool CheckWallCollision()
+        private bool CheckWallCollision()
         {
             int destinationTileType;
             int destinationX;
@@ -414,6 +440,14 @@ namespace CyberPunkd
             else
             {
                 return false;
+            }
+        }
+
+        private void DrawObjects(GameTime gameTime, List<Entity> objects)
+        {
+            foreach (Entity entity in objects)
+            {
+                entity.draw(gameTime, entity.getXCoords(), entity.getYCoords());
             }
         }
     }

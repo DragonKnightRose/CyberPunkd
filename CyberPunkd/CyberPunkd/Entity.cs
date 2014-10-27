@@ -16,6 +16,8 @@ namespace CyberPunkd
         protected Boolean autoAnimate = false;
         //animationSequenceLength is used to to represent how many animation frames are in each row.
         protected int[] animationSequenceLength;
+        private int xCoords;
+        private int yCoords;
 
         protected Entity(Texture2D texture) : base(texture)
         {
@@ -41,6 +43,21 @@ namespace CyberPunkd
         public void onTouch()
         {
             
+        }
+        public void setCoords(int x, int y)
+        {
+            yCoords = y;
+            xCoords = x;
+        }
+
+        public int getXCoords()
+        {
+            return xCoords;
+        }
+
+        public int getYCoords()
+        {
+            return yCoords;
         }
 
         

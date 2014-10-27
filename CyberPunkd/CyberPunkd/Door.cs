@@ -11,5 +11,10 @@ namespace CyberPunkd
         public Door(Texture2D texture) : base(texture)
         {
         }
+        public Door(Texture2D texture, int x, int y)
+            : base(texture)
+        {
+            setCoords(x,y);
+        }
     }
 }
