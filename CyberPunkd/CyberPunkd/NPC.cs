@@ -9,8 +9,15 @@ namespace CyberPunkd
 {
     class NPC : DynamicEntity
     {
+        private string name;
+
         public NPC(Texture2D texture) : base(texture)
         {
+        }
+
+        public NPC(Texture2D texture, string name) : base(texture)
+        {
+            this.name = name;
         }
 
         public override void update(GameTime gameTime)

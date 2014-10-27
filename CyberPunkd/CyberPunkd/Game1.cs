@@ -66,6 +66,9 @@ namespace CyberPunkd
         //Just for testing
         private Tile tile;
         private Texture2D bathroomDoorSpriteMap;
+        private Texture2D normalDoorSpriteMap;
+        private Texture2D keycardDoorSpriteMap;
+        private Texture2D generalSecuritySpriteMap;
         //public static ContentManager content;
 
 
@@ -106,14 +109,23 @@ namespace CyberPunkd
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             Drawable.setSpriteBatch(spriteBatch);
-            player = new Player(Content.Load<Texture2D>(@"SpriteSheets\Female_sheet"), tickTime);
-            tile = new Floor(Content.Load<Texture2D>(@"SpriteSheets\floor"));
 
-            // TODO: use this.Content to load your game content here
-            //load sprite maps
             wallSpriteMap = Content.Load<Texture2D>(@"SpriteSheets\Walls");
             shootableWallSpriteMap = Content.Load<Texture2D>(@"SpriteSheets\Walls_Shootable");
             bathroomDoorSpriteMap = Content.Load<Texture2D>(@"SpriteSheets\Wall_bathroom");
+            normalDoorSpriteMap = Content.Load<Texture2D>(@"SpriteSheets\Walls_locked");
+            keycardDoorSpriteMap = Content.Load<Texture2D>(@"SpriteSheets\Walls_keycard");
+            generalSecuritySpriteMap = Content.Load<Texture2D>(@"SpriteSheets\Security_Generic_sheet");
+
+
+            player = new Player(Content.Load<Texture2D>(@"SpriteSheets\Female_sheet"), tickTime);
+            tile = new Floor(Content.Load<Texture2D>(@"SpriteSheets\floor"));
+            //tile = new Floor(Content.Load<Texture2D>(@"SpriteSheets\Wall_bathroom"));
+            //tile = new Floor(bathroomDoorSpriteMap);
+
+            // TODO: use this.Content to load your game content here
+            //load sprite maps
+            
 
             Console.WriteLine("shootable set: "+shootableWallSpriteMap.ToString());
             Console.WriteLine("regular set: "+wallSpriteMap.ToString());
@@ -270,7 +282,7 @@ namespace CyberPunkd
             {
                 case "tutorial":
                     filePath = @"Content/maps/Tutorial Map.csv";
-                    viewCorner[0] = 0;
+                    viewCorner[0] = 1;
                     viewCorner[1] = 10;
                     break;
                 default:
@@ -302,7 +314,15 @@ namespace CyberPunkd
             {
                 case "tutorial":
                     objectGrid = new ObjectGrid(tileMatrix[0].GetLength(0), tileMatrix.GetLength(0), SCREEN_WIDTH, SCREEN_HEIGHT);
-                    objectGrid.AddObject(new Door(bathroomDoorSpriteMap, 10, 16));
+                    
+                    Door entrance = new Door(keycardDoorSpriteMap, 10, 16);
+                    entrance.setSpriteFrame(new Point(0,0));
+                    objectGrid.AddObject(entrance);
+
+                    NPC aliceNpc = new NPC(generalSecuritySpriteMap, "Alice");
+                    aliceNpc.setCoords(13, 18);
+                    aliceNpc.setSpriteFrame(new Point(0,10));
+                    objectGrid.AddObject(aliceNpc);
                     break;
                 default:
                     objectGrid = new ObjectGrid(tileMatrix[0].GetLength(0), tileMatrix.GetLength(0), SCREEN_WIDTH, SCREEN_HEIGHT);
@@ -447,8 +467,17 @@ namespace CyberPunkd
         {
             foreach (Entity entity in objects)
             {
-                entity.draw(gameTime, entity.getXCoords(), entity.getYCoords());
+                entity.draw(gameTime, entity.getXCoords()-viewCorner[0], entity.getYCoords()-viewCorner[1]);
             }
+        }
+
+        private void DrawObjects(GameTime gameTime, Door obj)
+        {
+            obj.draw(gameTime, obj.getXCoords(), obj.getYCoords());
+            if (false)
+            {
+            }
+
         }
     }
 }
