@@ -38,6 +38,8 @@ namespace CyberPunkd
         private const int WALL_UL_CORNER = 11;
         private const int WALL_UR_CORNER = 12;
         private const int WALL_LR_CORNER = 13;
+
+        private const int WALL_SHOOTABLE_UPPER = 15;
         
 
         private const int TILE_WIDTH = 64;
@@ -55,6 +57,7 @@ namespace CyberPunkd
         private TimeSpan tickTime;
 
         private Texture2D wallSpriteMap;
+        private Texture2D shootableWallSpriteMap;
 
 
         //Just for testing
@@ -105,7 +108,11 @@ namespace CyberPunkd
             // TODO: use this.Content to load your game content here
             //load sprite maps
             wallSpriteMap = Content.Load<Texture2D>(@"SpriteSheets\Walls");
-            
+            shootableWallSpriteMap = Content.Load<Texture2D>(@"SpriteSheets\Walls_Shootable");
+
+            Console.WriteLine("shootable set: "+shootableWallSpriteMap.ToString());
+            Console.WriteLine("regular set: "+wallSpriteMap.ToString());
+
             //load tilesets
             tileTable = new Tile[22];
             tileTable[FLOOR_TILE] = tile;
@@ -145,6 +152,9 @@ namespace CyberPunkd
 
             tileTable[WALL_LR_CORNER] = new Wall(wallSpriteMap);
             tileTable[WALL_LR_CORNER].setSpriteFrame(new Point(3, 2));
+
+            tileTable[WALL_SHOOTABLE_UPPER] = new Wall(shootableWallSpriteMap);
+            tileTable[WALL_SHOOTABLE_UPPER].setSpriteFrame(new Point(2, 0));
             
             //load map files
             viewCorner = new[] {0, 0};
@@ -287,7 +297,7 @@ namespace CyberPunkd
                             //we're still on the map
                             //paint the tile at tileMatrix[xGlobal, yGlobal] at coords [x,y]
                             int tileTableIndex = tileMatrix[yGlobal][xGlobal];
-                            if (tileTableIndex != EMPTY_TILE && tileTableIndex != 15)
+                            if (tileTableIndex != EMPTY_TILE)
                             {
                                 tileTable[tileTableIndex].draw(gameTime, x, y);
                             }
@@ -399,7 +409,7 @@ namespace CyberPunkd
             Console.WriteLine("Destination Tile: (" + destinationX + ", " + destinationY + ")");
             Console.WriteLine("Tile Type: " + destinationTileType);
 
-            if (destinationTileType != EMPTY_TILE && destinationTileType != 15)
+            if (destinationTileType != EMPTY_TILE)
                 return tileTable[destinationTileType].canCollide;
             else
             {
