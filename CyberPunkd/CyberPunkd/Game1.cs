@@ -69,6 +69,7 @@ namespace CyberPunkd
         private Texture2D normalDoorSpriteMap;
         private Texture2D keycardDoorSpriteMap;
         private Texture2D generalSecuritySpriteMap;
+        private Texture2D securityHeadSpriteMap;
         //public static ContentManager content;
 
 
@@ -116,6 +117,7 @@ namespace CyberPunkd
             normalDoorSpriteMap = Content.Load<Texture2D>(@"SpriteSheets\Walls_locked");
             keycardDoorSpriteMap = Content.Load<Texture2D>(@"SpriteSheets\Walls_keycard");
             generalSecuritySpriteMap = Content.Load<Texture2D>(@"SpriteSheets\Security_Generic_sheet");
+            securityHeadSpriteMap = Content.Load<Texture2D>(@"SpriteSheets\Security_head_sheet");
 
 
             player = new Player(Content.Load<Texture2D>(@"SpriteSheets\Female_sheet"), tickTime);
@@ -316,13 +318,24 @@ namespace CyberPunkd
                     objectGrid = new ObjectGrid(tileMatrix[0].GetLength(0), tileMatrix.GetLength(0), SCREEN_WIDTH, SCREEN_HEIGHT);
                     
                     Door entrance = new Door(keycardDoorSpriteMap, 10, 16);
-                    entrance.setSpriteFrame(new Point(0,0));
+                    entrance.setSpriteFrame(new Point(3,0));
+                    entrance.canCollide = true;
                     objectGrid.AddObject(entrance);
 
                     NPC aliceNpc = new NPC(generalSecuritySpriteMap, "Alice");
                     aliceNpc.setCoords(13, 18);
                     aliceNpc.setSpriteFrame(new Point(0,10));
                     objectGrid.AddObject(aliceNpc);
+
+                    NPC bobNpc = new NPC(generalSecuritySpriteMap, "Bob");
+                    bobNpc.setCoords(16, 21);
+                    bobNpc.setSpriteFrame(new Point(0, 10));
+                    objectGrid.AddObject(bobNpc);
+
+                    NPC yellowSecurity = new NPC(generalSecuritySpriteMap, "YellowMan");
+                    yellowSecurity.setCoords(28, 16);
+                    yellowSecurity.setSpriteFrame(new Point(0,9));
+                    objectGrid.AddObject(yellowSecurity);
                     break;
                 default:
                     objectGrid = new ObjectGrid(tileMatrix[0].GetLength(0), tileMatrix.GetLength(0), SCREEN_WIDTH, SCREEN_HEIGHT);
@@ -456,7 +469,17 @@ namespace CyberPunkd
             Console.WriteLine("Tile Type: " + destinationTileType);
 
             if (destinationTileType != EMPTY_TILE)
-                return tileTable[destinationTileType].canCollide;
+                if(destinationTileType != FLOOR_TILE)
+                    return tileTable[destinationTileType].canCollide;
+                else
+                {
+                    foreach (Entity entity in activeObjects)
+                    {
+                        if(entity.getXCoords() == destinationX && entity.getYCoords() == destinationY)
+                            return entity.canCollide;
+                    }
+                    return false;
+                }
             else
             {
                 return false;
